@@ -1,0 +1,108 @@
+// Colores
+$primary-color: #0c4e9e;
+$hover-color: #F3E600;
+$active-color: #ffffff;
+
+.responsive-button{
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 15px;
+  border-radius: 5px;
+}
+.aviso{
+  color: red;
+  font-size: 12px;
+  text-align: center;
+}
+#container {
+  box-shadow: none;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  color: $primary-color;
+  margin: 2% 2% 0% 2%;
+  padding: auto;
+
+  .login-form {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 15px;
+    border-radius: 5px;
+  }
+
+  .center-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .logo-img {
+    max-width: 20%;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    @media (min-width: 768px) {
+      max-width: 10%;
+    }
+  }
+}
+
+.login {
+  --background: transparent;
+  margin: auto;
+  width: 100%;
+
+  ion-item {
+    background: $primary-color;
+    border-bottom: 15px solid;
+  }
+
+  ion-card {
+    box-shadow: none;
+    background-color: transparent;
+    border-radius: 0%;
+    border-color: transparent;
+    border-bottom: 0;
+  }
+
+
+  button {
+    --background: $primary-color;
+    color: white;
+    font-weight: bold;
+
+    &:hover {
+      --background: $hover-color;
+      color: black;
+    }
+
+    &:active {
+      --background: $active-color;
+    }
+  }
+}
+
+.titulo2{
+  text-align: center;
+  padding-top: 4em;
+  padding-bottom: 1em;
+  font-size: 20px !important;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.titulo1 {
+  font-size: 30px !important;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.copy {
+  text-align: center;
+  color: $primary-color;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}

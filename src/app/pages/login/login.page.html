@@ -1,0 +1,29 @@
+<ion-content [fullscreen]="true" class="login-page">
+  <div id="container">
+    <ion-card-header class="center-image">
+      <ion-img class="logo-img" src="../../../assets/img/icon_chamba_light.png"></ion-img>
+      <br>
+      <ion-title color="primary">Más Chamba</ion-title>
+    </ion-card-header>
+    <br><br>
+    <form [formGroup]="credentials" (ngSubmit)="login()">
+      <ion-item lines="none">
+        <ion-label position="stacked">Correo Electronico</ion-label>
+        <ion-input type="email" formControlName="email"></ion-input>
+        <ion-note slot="error" *ngIf="(email?.dirty || email?.touched) && email?.errors">El Correo Electronico Ingresado
+          es Invalido</ion-note>
+      </ion-item>
+      <br><br>
+      <ion-item lines="none">
+        <ion-label position="stacked">Contraseña</ion-label>
+        <ion-input [type]="showPassword ? 'text' : 'password'" formControlName="password"></ion-input>
+        <ion-icon name="eye" slot="end" *ngIf="!showPassword" (click)="togglePasswordVisibility()"></ion-icon>
+        <ion-icon name="eye-off" slot="end" *ngIf="showPassword" (click)="togglePasswordVisibility()"></ion-icon>
+        <ion-note slot="error" *ngIf="(password?.dirty || password?.touched) && password?.errors">La Contraseña es Invalida </ion-note>
+      </ion-item>
+      <br>
+      <ion-button class="responsive-button" primary block [disabled]="!credentials.valid" type="submit">Iniciar
+        Sesión</ion-button>
+    </form>
+  </div>
+</ion-content>
