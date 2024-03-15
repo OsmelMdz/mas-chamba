@@ -1,0 +1,73 @@
+.new-background-color{
+  --background: #0C4592;
+}
+
+.profile_photo {
+  border-radius: 100%;
+}
+
+ion-content {
+  --ion-background-color: #f4f4f4;
+}
+
+ion-button{
+  color:azure;
+  border-radius: 50%;
+  display: block;
+}
+
+
+ion-card {
+  ion-card-header {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  .card-img {
+    max-width: 50%;
+    max-height: 50%;
+    object-fit: cover;
+    margin: 0 auto;
+    margin-left: 25%;
+  }
+
+  ion-footer {
+    ion-col {
+      display: flex;
+      justify-content: center;
+
+      ion-chip {
+        --background: white;
+        color: dimgrey;
+        padding: 0 0 0 5px;
+        font-size: 12px;
+        height: 12px;
+
+        ion-icon {
+          height: 14px;
+          width: 14px;
+        }
+      }
+    }
+  }
+}
+
+.bold {
+  font-weight: 600;
+}
+
+.guy-longname {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-image {
+  max-width: 50%;
+  max-height: 50%;
+  object-fit: cover;
+  margin: 0 auto;
+  margin-left: 25%;
+}
+
+

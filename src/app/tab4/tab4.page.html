@@ -1,0 +1,87 @@
+<ion-toolbar class="new-background-color" style="display: flex; align-items: center; height:70px">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="10">
+        <h1 class="ion-padding" style="color: azure; font-size: large; margin-left: 8px; margin-top:15px;">Más
+          información</h1>
+      </ion-col>
+      <ion-col size="2">
+        <ion-button id="popover-button" style="width: 60px; height: 37px; margin-left: auto; margin-top: 18px;">
+          <img src="https://www.ahrexpomexico.com/wp-content/uploads/2023/07/recorte-edgar.jpg"
+            style="width: 50px; height: 35px; " />
+        </ion-button>
+        <ion-popover trigger="popover-button" [dismissOnSelect]="true">
+          <ng-template>
+            <ion-content>
+              <ion-list>
+                <ion-item [button]="true" [detail]="false">Ver perfil</ion-item>
+                <ion-item [button]="true" [detail]="false">Cerrar sesión</ion-item>
+              </ion-list>
+            </ion-content>
+          </ng-template>
+        </ion-popover>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-toolbar>
+
+
+<ion-content class="info" class="ion-padding">
+
+  <img class="logo-img" src="../../assets/img/iconame_chamba_light.png">
+
+  <h4 class="title">Más Chamba</h4>
+
+  <p class="text_info">
+    La aplicación <strong>Más Chamba</strong> es una herramienta propiedad de <strong>Más Capacitación</strong> la cual
+    busca facilitar el acceso a prestadores de servicios de calidad en el área de electricidad y plomería en la ciudad
+    de Oaxaca. Por medio de <strong>Más Chamba</strong>, buscamos que el nivel de empleabilidad de personas capacitadas
+    por <strong>Más Capacitación</strong> pueda llegar a ser <strong>mayor</strong> y, a su vez, comiencen a generar una
+    cartera <strong>sólida</strong> de clientes. <strong>Más Chamba</strong> abre sus puertas para que prestadores de
+    servicio, tanto <strong>nuevos</strong> como aquellos con una larga trayectoria, puedan ser
+    <strong>beneficiados</strong>.
+    <br>
+    El único requisito para ser dado de alta dentro de la aplicación <strong>Más Chamba</strong> es haber tomado un
+    curso o certificación por parte de la empresa <strong>Más Capacitación</strong>, la cual tiene su
+    <strong>sede</strong> en la ciudad de Oaxaca, con dirección en Ariel #203, Colonia Satélite, Oaxaca, México.
+    <br>
+    Si previamente has tomado un curso o certificación en el área de electricidad y plomería por parte de <strong>Más
+      Capacitación</strong>, llena el siguiente formulario:
+  </p>
+
+  <ion-button class="buttons">Formulario</ion-button>
+
+  <p class="text_info">
+    Sí no has tomado un curso o certificación por parte de Más Capacitación y te gustaría mejorar tus habilidades
+    técnicas y ser parte de Más Chamba, revisa la siguiente información:
+  <p>
+
+    <ion-button class="buttons">Más información</ion-button>
+
+    <ion-item-divider style="margin-top: -20px;"></ion-item-divider>
+
+
+    <img class="logo-img" src="../../assets/img/Logo.png">
+
+  <h4 class="title">Más Capacitación</h4>
+
+  <p class="text_info">MÁS CAPACITACIÓN surge en el año 2016, con el objetivo de brindar competencias en instalaciones
+    eléctricas residenciales, plomería, energías alternas, aire acondicionado y electrónica, proporcionando estas
+    herramientas para ayudar a mis alumnos en la generación de ingresos, mejorando su calidad de vida, y contribuyendo a
+    la economía de los oaxaqueños. a la fecha se cuenta con más de 5,000 egresados en nuestras diferentes
+    especialidades.
+    Nos encontramos en Ariel 203 col. sieneguita 5 Señores, Oaxaca.
+  </p>
+
+  <ion-item-divider style="margin-top: -20px;"></ion-item-divider>
+
+  <h4 class="title">Aplicación desarrollada por:</h4>
+
+  <p>
+    - Rodrigo Uriel Montes Antonio
+  </p>
+  <p>
+    - Héctor Osmel Méndez López
+  </p>
+
+</ion-content>

@@ -1,29 +1,26 @@
-<ion-content [fullscreen]="true" class="login-page">
-  <div id="container">
-    <ion-card-header class="center-image">
-      <ion-img class="logo-img" src="../../../assets/img/icon_chamba_light.png"></ion-img>
-      <br>
-      <ion-title color="primary">Más Chamba</ion-title>
-    </ion-card-header>
-    <br><br>
-    <form [formGroup]="credentials" (ngSubmit)="login()">
-      <ion-item lines="none">
+<ion-content fullscreen class="login-page">
+  <div class="ion-padding">
+    <!-- <h1 class="ion-text-center">Más Chamba</h1> -->
+    <div class="center-container">
+      <form [formGroup]="credentials" (ngSubmit)="login()" class="login-form">
+        <ion-img class="logo-img" src="../../../assets/img/iconame_chamba_light.png" alt="Más Chamba logo"></ion-img>
         <ion-label position="stacked">Correo Electronico</ion-label>
-        <ion-input type="email" formControlName="email"></ion-input>
-        <ion-note slot="error" *ngIf="(email?.dirty || email?.touched) && email?.errors">El Correo Electronico Ingresado
-          es Invalido</ion-note>
-      </ion-item>
-      <br><br>
-      <ion-item lines="none">
+        <br><br>
+        <ion-item lines="none" class="input-container">
+          <ion-input type="email" formControlName="email" autocomplete="off"></ion-input>
+          <ion-note slot="error" *ngIf="(email?.dirty || email?.touched) && email?.errors">El Correo Electronico es Requerido</ion-note>
+        </ion-item>
+        <br>
         <ion-label position="stacked">Contraseña</ion-label>
-        <ion-input [type]="showPassword ? 'text' : 'password'" formControlName="password"></ion-input>
-        <ion-icon name="eye" slot="end" *ngIf="!showPassword" (click)="togglePasswordVisibility()"></ion-icon>
-        <ion-icon name="eye-off" slot="end" *ngIf="showPassword" (click)="togglePasswordVisibility()"></ion-icon>
-        <ion-note slot="error" *ngIf="(password?.dirty || password?.touched) && password?.errors">La Contraseña es Invalida </ion-note>
-      </ion-item>
-      <br>
-      <ion-button class="responsive-button" primary block [disabled]="!credentials.valid" type="submit">Iniciar
-        Sesión</ion-button>
-    </form>
+        <br><br>
+        <ion-item lines="none" class="input-container">
+          <ion-input [type]="showPassword ? 'text' : 'password'" formControlName="password" autocomplete="off"></ion-input>
+          <ion-icon name="eye" slot="end" *ngIf="!showPassword" (click)="togglePasswordVisibility()"></ion-icon>
+          <ion-icon name="eye-off" slot="end" *ngIf="showPassword" (click)="togglePasswordVisibility()"></ion-icon>
+          <ion-note slot="error" *ngIf="(password?.dirty || password?.touched) && password?.errors">La Contraseña es Requerida</ion-note>
+        </ion-item>
+        <ion-button class="responsive-button" type="submit" [disabled]="!credentials.valid" expand="block">Iniciar Sesión</ion-button>
+      </form>
+    </div>
   </div>
 </ion-content>

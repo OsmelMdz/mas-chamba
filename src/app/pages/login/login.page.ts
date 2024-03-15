@@ -2,7 +2,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NavController, ToastController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -11,20 +11,19 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+
   credentials: FormGroup;
   showPassword: boolean = false;
 
   constructor(
-    private fb: FormBuilder,
-    private navCtrl: NavController,
-    private toastController: ToastController,
-    private sesion: AuthService,
-    private router: Router) {
+    private fb: FormBuilder, private toastController: ToastController,
+    private sesion: AuthService, private router: Router) {
     this.credentials = this.fb.group({
       email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
+
   get email() {
     return this.credentials?.get('email');
   }
@@ -32,26 +31,34 @@ export class LoginPage implements OnInit {
   get password() {
     return this.credentials?.get('password');
   }
+
   ngOnInit() {
     this.credentials = this.fb.group({
       email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
+
   login() {
-    this.sesion.login(this.credentials.value).subscribe((data: any) => {
-      console.log('Data: ', data);
-      if (data.status == 401) {
-        console.log('Usuario no autorizado');
-        this.showErrorToast('Usuario no autorizado');
-      } else {
-        localStorage.setItem('Token', data.token);
+    this.sesion.login(this.credentials.value).subscribe(
+      (data: any) => {
+        console.log('Data: ', data);
+        //localStorage.setItem('Token', data.token);
         console.log('Bienvenido');
         this.credentials.reset();
         this.showSuccessToast('Bienvenido a Mas Chamba');
         this.router.navigateByUrl('menu', { replaceUrl: true });
+      },
+      (error: any) => {
+        console.log('Error: ', error);
+        if (error.status === 401) {
+          this.showErrorToast('Usuario no autorizado o contraseña incorrecta');
+          console.log('Usuario no autorizado');
+        } else {
+          this.showErrorToast('Error de autenticación');
+        }
       }
-    });
+    );
   }
 
   async showErrorToast(message: string) {

@@ -1,0 +1,82 @@
+.new-background-color {
+  --background: #0C4592;
+}
+
+.profile_photo {
+  border-radius: 100%;
+}
+
+ion-content {
+  --ion-background-color: #f4f4f4;
+}
+
+.card-container {
+  padding: 0 10px;
+}
+
+.service-card {
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  transition: transform 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+}
+
+.service-title {
+  font-weight: 700;
+}
+
+ion-card {
+  ion-card-header {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  .card-img {
+    max-width: 50%;
+    max-height: 50%;
+    object-fit: cover;
+    margin: 0 auto;
+    margin-left: 25%;
+  }
+
+  ion-footer {
+    ion-col {
+      display: flex;
+      justify-content: center;
+
+      ion-chip {
+        --background: white;
+        color: dimgrey;
+        padding: 0 0 0 5px;
+        font-size: 12px;
+        height: 12px;
+
+        ion-icon {
+          height: 14px;
+          width: 14px;
+        }
+      }
+    }
+  }
+}
+
+.bold {
+  font-weight: 600;
+}
+
+.guy-longname {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-image {
+  max-width: 50%;
+  max-height: 50%;
+  object-fit: cover;
+  margin: 0 auto;
+  margin-left: 25%;
+}

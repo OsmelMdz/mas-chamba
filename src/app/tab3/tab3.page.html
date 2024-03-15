@@ -1,17 +1,59 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 3
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-toolbar class="new-background-color" style="display: flex; align-items: center; height:70px">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="10" >
+        <h1 class="ion-padding" style="color: azure; font-size: large; margin-left: 8px; margin-top:15px;">Administración Más Chamba</h1>
+      </ion-col>
+      <ion-col size="2">
+        <ion-button id="popover-button" style="width: 60px; height: 37px; margin-left: auto; margin-top: 18px;">
+          <img src="https://www.ahrexpomexico.com/wp-content/uploads/2023/07/recorte-edgar.jpg"
+            style="width: 50px; height: 35px; " />
+        </ion-button>
+        <ion-popover trigger="popover-button" [dismissOnSelect]="true">
+          <ng-template>
+            <ion-content>
+              <ion-list>
+                <ion-item [button]="true" [detail]="false">Ver perfil</ion-item>
+                <ion-item [button]="true" [detail]="false">Cerrar sesión</ion-item>
+              </ion-list>
+            </ion-content>
+          </ng-template>
+        </ion-popover>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-toolbar>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <ion-list>
+    <h1 style="margin-left: 14px; margin-top: -10px;" >Opciones</h1>
+    <ion-item>
+      <ion-label>Prestadores de servicios</ion-label>
+      <ion-button style="color:azure" ><ion-icon aria-hidden="true" name="add"></ion-icon></ion-button>
+      <ion-action-sheet trigger="open-action-sheet" header="Actions"></ion-action-sheet>
+    </ion-item>
+    <ion-item>
+      <ion-label>Usuarios</ion-label>
+      <ion-button style="color:azure"><ion-icon aria-hidden="true" name="add"></ion-icon></ion-button>
+      <ion-action-sheet trigger="open-action-sheet" header="Actions"></ion-action-sheet>
+    </ion-item>
+    <ion-item>
+      <ion-label>Servicios</ion-label>
+      <ion-button style="color:azure"><ion-icon aria-hidden="true" name="add"></ion-icon></ion-button>
+      <ion-action-sheet trigger="open-action-sheet" header="Actions"></ion-action-sheet>
+    </ion-item>
+    <ion-item>
+      <ion-label>Certificaciones</ion-label>
+      <ion-button style="color:azure"><ion-icon aria-hidden="true" name="add"></ion-icon></ion-button>
+      <ion-action-sheet trigger="open-action-sheet" header="Actions"></ion-action-sheet>
+    </ion-item>
+    <ion-item>
+      <ion-label>Cursos</ion-label>
+      <ion-button style="color:azure"><ion-icon aria-hidden="true" name="add"></ion-icon></ion-button>
+      <ion-action-sheet trigger="open-action-sheet" header="Actions"></ion-action-sheet>
+    </ion-item>
+  </ion-list>
+
 </ion-content>
