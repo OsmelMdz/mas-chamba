@@ -15,7 +15,6 @@ $active-color: #ffffff;
   max-width: 400px;
   padding: 0px auto 0px auto;
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
 }
 
@@ -47,6 +46,10 @@ $active-color: #ffffff;
   margin-bottom: .1rem;
 }
 
+.aviso{
+  font-size: 18px;
+  text-align: center;
+}
 .custom-input {
   background-color: transparent;
 }
@@ -70,7 +73,6 @@ $active-color: #ffffff;
   .login-form {
     max-width: 90%;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     background-color: #ffffff;
   }
 

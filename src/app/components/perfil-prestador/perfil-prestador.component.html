@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar class="ion-text-center" color="primary">
+    <ion-buttons>
+      <ion-button fill="clear" (click)="close()">
+        <ion-icon slot="icon-only" color="light" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title id="titulo">
+      Perfil
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <div class="spinner-container " *ngIf="!userProfile">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
+  <div *ngIf="userProfile">
+    <ion-card>
+      <ion-card-header>
+        <img [src]="userProfile.user.imagen" alt="Imagen de perfil">
+        <ion-card-subtitle>Pefil{{ userProfile.user.tipo_cuenta }}</ion-card-subtitle>
+        <ion-card-title>{{ userProfile.user.nombre | uppercase }} {{ userProfile.user.a_paterno | uppercase}} {{
+          userProfile.user.a_materno | uppercase}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p><strong>Correo:</strong> {{ userProfile.email}}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

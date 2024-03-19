@@ -1,0 +1,53 @@
+.back_ground_photo{
+  color: primary;
+}
+
+.profile_photo {
+  margin-top: 15px;
+}
+
+
+ .call_button{
+  margin-top: 30px;
+  display: block;
+  color: azure;
+  height: 40px;
+}
+
+.whats_button{
+  margin-top: 30px;
+  display: block;
+  height: 40px;
+}
+
+.icon-button{
+  padding-right: 6px;
+}
+
+
+
+.container{
+  --background: #0C4592;
+  color: azure;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+}
+
+ion-spinner {
+  width: 100px;
+  height: 100px;
+}
+
+
+.ion-padding {
+  --background: url('/assets/imgs/color_box.png') 0 0/100% 12% no-repeat;
+  position: sticky;
+ }

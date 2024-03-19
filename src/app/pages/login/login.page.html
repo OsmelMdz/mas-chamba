@@ -2,7 +2,7 @@
   <div class="ion-padding">
     <!-- <h1 class="ion-text-center">Más Chamba</h1> -->
     <div class="center-container">
-      <form [formGroup]="credentials" (ngSubmit)="login()" class="login-form">
+      <form [formGroup]="credentials" (ngSubmit)="login()" class="login-form" autocomplete="off">
         <ion-img class="logo-img" src="../../../assets/img/iconame_chamba_light.png" alt="Más Chamba logo"></ion-img>
         <ion-label position="stacked">Correo Electronico</ion-label>
         <br><br>
@@ -20,6 +20,10 @@
           <ion-note slot="error" *ngIf="(password?.dirty || password?.touched) && password?.errors">La Contraseña es Requerida</ion-note>
         </ion-item>
         <ion-button class="responsive-button" type="submit" [disabled]="!credentials.valid" expand="block">Iniciar Sesión</ion-button>
+        <div>
+          <p class="aviso">¿No tienes una cuenta?</p>
+          <ion-button ion-button expand="block" color="warning" class="responsive-button" (click)="register()">Más Información Aquí</ion-button>
+        </div>
       </form>
     </div>
   </div>

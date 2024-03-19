@@ -3,53 +3,25 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 
-export { PrestadoresResponse };
-
-
+export { PrestadoresResponse, Prestador };
 interface Prestador {
   id: number;
+  user_id: number;
   nombre: string;
   a_paterno: string;
   a_materno: string;
   fecha_nacimiento: Date;
-  telefono: string;
-  sexo: string;
   imagen: string;
-  cursos: Curso[];
-  certificaciones: Certificacion[];
-  servicios: Servicio[];
-  zonas: Zona[];
-}
-
-interface Curso {
-  id: number;
-  nombre: string;
-  descripcion: string;
-  prestador_id: number;
-}
-
-interface Certificacion {
-  id: number;
-  nombre: string;
-  descripcion: string;
-  prestador_id: number;
-}
-
-interface Servicio {
-  id: number;
-  nombre: string;
-  descripcion: string;
-  prestador_id: number;
-}
-
-interface Zona {
-  id: number;
-  nombre: string;
-  prestador_id: number;
+  sexo: string;
+  telefono: string;
+  identificacion_personal: string;
+  comprobante_domicilio: string;
+  tipo_cuenta: string;
+  estatus: string;
 }
 
 interface PrestadoresResponse {
-  data: Prestador[];
+  [prestadores: string]: any[];
   links: any;
   meta: any;
 }
@@ -59,7 +31,7 @@ interface PrestadoresResponse {
 })
 export class PrestadorService {
 
-  apiUrl = 'http://127.0.0.1:8000/api/v1';
+  apiUrl = 'http://127.0.0.1:8000/api';
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -70,31 +42,7 @@ export class PrestadorService {
     return this.http.get<PrestadoresResponse>(`${this.apiUrl}/prestadores`, { headers });
   }
 
-  getPrestador(id: number): Observable<Prestador> {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.authService.getToken()}`
-    });
-    return this.http.get<Prestador>(`${this.apiUrl}/prestadores/${id}`, { headers });
-  }
-
-  getPrestadoresInlcudes(): Observable<PrestadoresResponse> {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.authService.getToken()}`
-    });
-    return this.http.get<PrestadoresResponse>(`${this.apiUrl}/prestadores?&includeCursos=true&includeCertificaciones=true&includeServicios=true&includeZonas=true`, { headers });
-  }
-
-  getPrestadoresPremiun(): Observable<PrestadoresResponse> {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.authService.getToken()}`
-    });
-    return this.http.get<PrestadoresResponse>(`${this.apiUrl}/prestadores?&includeCursos=true&includeCertificaciones=true&includeServicios=true&includeZonas=true&tipo_cuenta[eq]=Premiun`, { headers });
-  }
-
-  getPrestadoresNormal(): Observable<PrestadoresResponse> {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.authService.getToken()}`
-    });
-    return this.http.get<PrestadoresResponse>(`${this.apiUrl}/prestadores?&includeCursos=true&includeCertificaciones=true&includeServicios=true&includeZonas=true&tipo_cuenta[eq]=Normal`, { headers });
+  getPrestadoresF(): Observable<PrestadoresResponse> {
+    return this.http.get<PrestadoresResponse>(`${this.apiUrl}/prestadoresF`);
   }
 }

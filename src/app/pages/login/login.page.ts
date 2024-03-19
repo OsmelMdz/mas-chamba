@@ -5,6 +5,12 @@ import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 
+export interface User{
+  id: number;
+  email: string;
+  password: string;
+}
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -39,11 +45,14 @@ export class LoginPage implements OnInit {
     });
   }
 
+  register(){
+    this.router.navigateByUrl('menu/tabs/tab4', { replaceUrl: true });
+  }
+
   login() {
     this.sesion.login(this.credentials.value).subscribe(
       (data: any) => {
-        console.log('Data: ', data);
-        //localStorage.setItem('Token', data.token);
+        //console.log('Data: ', data);
         console.log('Bienvenido');
         this.credentials.reset();
         this.showSuccessToast('Bienvenido a Mas Chamba');
@@ -84,6 +93,5 @@ export class LoginPage implements OnInit {
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
-
 
 }

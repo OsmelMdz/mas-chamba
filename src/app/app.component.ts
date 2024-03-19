@@ -14,11 +14,9 @@ export class AppComponent {
     { title: 'Categorias', url: 'categoria', icon: 'pricetags' },
     { title: 'New categoria', url: 'new-categoria', icon: 'pricetag' },
   ];
-  //{ title: 'Registro', url: 'new-user', icon: 'person-add' }
-  //{ title: 'Home', url: 'folder/:id', icon: 'home' },
   public labels = [''];
   constructor(private http: HttpClient) {
-    http.get('http://localhost:8000/api/v1/prestadores').subscribe(console.log);
+    http.get('http://localhost:8000/api/prestadores');
   }
 }
 

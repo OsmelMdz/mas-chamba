@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Observable, catchError, map, tap } from 'rxjs';
 import { User } from '../pages/login/user.model';
 
 @Injectable({
@@ -8,7 +8,7 @@ import { User } from '../pages/login/user.model';
 })
 export class AuthService {
   tokenKey = 'auth_token';
-  apiUrl = 'http://127.0.0.1:8000/api/v1';
+  apiUrl = 'http://127.0.0.1:8000/api';
 
   constructor(private http: HttpClient) { }
   getToken(): string | null {
@@ -17,12 +17,12 @@ export class AuthService {
 
   login(user: User): Observable<User> {
     const csrfToken = localStorage.getItem('csrf_token') || '';
-    console.log(csrfToken);
+   // console.log(csrfToken);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'X-CSRF-TOKEN': csrfToken
     });
-    console.log(headers);
+    //console.log(headers);
     return this.http.post<User>(`${this.apiUrl}/login`, user, { headers })
       .pipe(
         tap((response: any) => {
@@ -33,15 +33,32 @@ export class AuthService {
       );
   }
 
-  isAuth(): boolean {
+  perfil(): Observable<any> {
+    const bearerToken = `Bearer ${this.getToken()}`;
+    const csrfToken = localStorage.getItem('csrf_token') || '';
+    const headers = new HttpHeaders({
+      'Authorization': bearerToken,
+      'X-CSRF-TOKEN': csrfToken
+    });
+    return this.http.get(`${this.apiUrl}/profile`, { headers });
+  }
+
+  isLoggedIn(): boolean {
     const token = localStorage.getItem('auth_token');
-    console.log(token);
     return !!token;
   }
 
+  isAuth(): boolean {
+    const token = localStorage.getItem('auth_token');
+    return !!token;
+  }
+
+
   logout() {
+    const bearerToken = `Bearer ${this.getToken()}`;
     const csrfToken = localStorage.getItem('csrf_token') || '';
     const headers = new HttpHeaders({
+      'Authorization': bearerToken,
       'X-CSRF-TOKEN': csrfToken
     });
     return this.http.post(`${this.apiUrl}/logout`, {}, { headers });

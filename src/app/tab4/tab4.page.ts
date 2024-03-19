@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../services/auth.service';
+import { ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab4',
@@ -7,10 +10,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Tab4Page implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService, private toastController: ToastController, private router: Router) {}
 
   ngOnInit() {
-    console.log('Tab 4 Initialized');
+    console.log('No robes datos');
   }
 
+  login() {
+    this.router.navigateByUrl('login', { replaceUrl: true });
+  }
 }

@@ -1,10 +1,11 @@
 <ion-toolbar class="new-background-color" style="display: flex; align-items: center; height:70px">
   <ion-grid>
     <ion-row>
-      <ion-col size="10" >
-        <h1 class="ion-padding" style="color: azure; font-size: large; margin-left: 8px; margin-top:15px;">Administración Más Chamba</h1>
+      <ion-col size="10">
+        <h1 class="ion-padding" style="color: azure; font-size: large; margin-left: 8px; margin-top:15px;">
+          Administración Más Chamba</h1>
       </ion-col>
-      <ion-col size="2">
+      <ion-col size="2" *ngIf="isLoggedIn()">
         <ion-button id="popover-button" style="width: 60px; height: 37px; margin-left: auto; margin-top: 18px;">
           <img src="https://www.ahrexpomexico.com/wp-content/uploads/2023/07/recorte-edgar.jpg"
             style="width: 50px; height: 35px; " />
@@ -14,7 +15,7 @@
             <ion-content>
               <ion-list>
                 <ion-item [button]="true" [detail]="false">Ver perfil</ion-item>
-                <ion-item [button]="true" [detail]="false">Cerrar sesión</ion-item>
+                <ion-item (click)="logout()" [button]="true" [detail]="false">Cerrar sesión</ion-item>
               </ion-list>
             </ion-content>
           </ng-template>
@@ -27,33 +28,13 @@
 
 <ion-content [fullscreen]="true" class="ion-padding">
 
-  <ion-list>
-    <h1 style="margin-left: 14px; margin-top: -10px;" >Opciones</h1>
-    <ion-item>
-      <ion-label>Prestadores de servicios</ion-label>
-      <ion-button style="color:azure" ><ion-icon aria-hidden="true" name="add"></ion-icon></ion-button>
-      <ion-action-sheet trigger="open-action-sheet" header="Actions"></ion-action-sheet>
-    </ion-item>
-    <ion-item>
-      <ion-label>Usuarios</ion-label>
-      <ion-button style="color:azure"><ion-icon aria-hidden="true" name="add"></ion-icon></ion-button>
-      <ion-action-sheet trigger="open-action-sheet" header="Actions"></ion-action-sheet>
-    </ion-item>
-    <ion-item>
-      <ion-label>Servicios</ion-label>
-      <ion-button style="color:azure"><ion-icon aria-hidden="true" name="add"></ion-icon></ion-button>
-      <ion-action-sheet trigger="open-action-sheet" header="Actions"></ion-action-sheet>
-    </ion-item>
-    <ion-item>
-      <ion-label>Certificaciones</ion-label>
-      <ion-button style="color:azure"><ion-icon aria-hidden="true" name="add"></ion-icon></ion-button>
-      <ion-action-sheet trigger="open-action-sheet" header="Actions"></ion-action-sheet>
-    </ion-item>
-    <ion-item>
-      <ion-label>Cursos</ion-label>
-      <ion-button style="color:azure"><ion-icon aria-hidden="true" name="add"></ion-icon></ion-button>
-      <ion-action-sheet trigger="open-action-sheet" header="Actions"></ion-action-sheet>
+  <ion-list lines="none" class="cards-container">
+    <h1 style="margin-left: 14px; margin-top: -10px;">Opciones</h1>
+    <ion-item *ngFor="let component of components">
+      <ion-label>{{component.title}}</ion-label>
+      <ion-button (click)="openComponentes(component.calculatorModal)" style="color:azure">
+        <ion-icon aria-hidden="true" name="add"></ion-icon>
+      </ion-button>
     </ion-item>
   </ion-list>
-
 </ion-content>

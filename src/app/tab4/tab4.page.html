@@ -6,16 +6,15 @@
           información</h1>
       </ion-col>
       <ion-col size="2">
-        <ion-button id="popover-button" style="width: 60px; height: 37px; margin-left: auto; margin-top: 18px;">
-          <img src="https://www.ahrexpomexico.com/wp-content/uploads/2023/07/recorte-edgar.jpg"
-            style="width: 50px; height: 35px; " />
+        <ion-button id="popover-button">
+          lOGIN
+          <ion-icon name="log-in"></ion-icon>
         </ion-button>
         <ion-popover trigger="popover-button" [dismissOnSelect]="true">
           <ng-template>
             <ion-content>
               <ion-list>
-                <ion-item [button]="true" [detail]="false">Ver perfil</ion-item>
-                <ion-item [button]="true" [detail]="false">Cerrar sesión</ion-item>
+                <ion-item (click)="login()" [button]="true" [detail]="false">Iniciar Sesion</ion-item>
               </ion-list>
             </ion-content>
           </ng-template>

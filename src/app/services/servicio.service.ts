@@ -3,18 +3,17 @@ import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
 
-export { ServiciosResponse };
+export { ServiciosResponse, Servicio };
 
 interface Servicio {
   id: number;
   nombre: string;
   descripcion: string;
   imagen:string;
-  prestador_id: number;
 }
 
 interface ServiciosResponse {
-  data: Servicio[];
+  servicios: Servicio[];
   links: any;
   meta: any;
 }
@@ -24,15 +23,15 @@ interface ServiciosResponse {
 })
 export class ServicioService {
 
-  apiUrl = 'http://127.0.0.1:8000/api/v1';
+  apiUrl = 'http://127.0.0.1:8000/api';
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  getServicios(): Observable<ServiciosResponse> {
+  getServicios(): Observable<Servicio[]> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.authService.getToken()}`
     });
-    return this.http.get<ServiciosResponse>(`${this.apiUrl}/servicios`, { headers });
+    return this.http.get<Servicio[]>(`${this.apiUrl}/servicios`, { headers });
   }
 
 }
