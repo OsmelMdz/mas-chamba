@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router'; import { ModalController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 
-export { user_profile };
-
-interface user_profile {
+export { UserProfile }
+interface UserProfile {
   user: {
     id: number;
     nombre: string;
@@ -20,52 +20,42 @@ interface user_profile {
     imagen: string;
     user_id: number;
   };
-  email: string
+  email: string;
+  password: string;
+  role_id: number;
 }
-
 @Component({
   selector: 'app-perfil-prestador',
   templateUrl: './perfil-prestador.component.html',
   styleUrls: ['./perfil-prestador.component.scss'],
 })
+
 export class PerfilPrestadorComponent implements OnInit {
-  userProfile: user_profile | undefined;
+  userProfile: UserProfile | undefined;
 
   constructor(private modalCtrl: ModalController, private router: Router, private authService: AuthService,) { }
+
   async close() {
     await this.modalCtrl.dismiss();
   }
+
   ngOnInit() {
     this.perfil();
   }
 
   perfil() {
-    this.authService.perfil().subscribe(
+    this.authService.getPerfilPrestador().subscribe(
       (response: any) => {
-        console.log('Perfil:', response);
-        this.userProfile = {
-          user: {
-            id: response.id,
-            nombre: response.nombre,
-            a_paterno: response.a_paterno,
-            a_materno: response.a_materno,
-            sexo: response.sexo,
-            fecha_nacimiento: response.fecha_nacimiento,
-            telefono: response.telefono,
-            tipo_cuenta: response.tipo_cuenta,
-            estatus: response.estatus,
-            identificacion_personal: response.identificacion_personal,
-            comprobante_domicilio: response.comprobante_domicilio,
-            imagen: response.imagen,
-            user_id: response.user_id
-          },
-          email: response.email
-        };
-        this.router.navigateByUrl('prefil', { replaceUrl: true });
+        console.log('Perfil del prestador:', response);
+        this.userProfile = response.user_profile;
       },
       (error) => {
-        console.error('Error al obtener el perfil:', error);
+        console.error('Error al obtener el perfil del prestador:', error);
       }
     );
+  }
+
+  verPolitica() {
+    this.router.navigateByUrl('/politica');
   }
 }

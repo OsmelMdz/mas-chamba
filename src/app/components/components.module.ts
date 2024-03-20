@@ -5,11 +5,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NewPrestadorComponent } from './new-prestador/new-prestador.component';
 import { PerfilPrestadorComponent } from './perfil-prestador/perfil-prestador.component';
+import { ContactarComponentComponent } from './contactar-component/contactar-component.component';
+import { PoliticasComponent } from './politicas/politicas.component';
 
 @NgModule({
   declarations: [
     NewPrestadorComponent,
-    PerfilPrestadorComponent
+    PerfilPrestadorComponent,
+    ContactarComponentComponent,
+    PoliticasComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +24,9 @@ import { PerfilPrestadorComponent } from './perfil-prestador/perfil-prestador.co
   ],
   exports: [
     NewPrestadorComponent,
-    PerfilPrestadorComponent
+    PerfilPrestadorComponent,
+    ContactarComponentComponent,
+    PoliticasComponent
   ]
 })
 export class ComponentsModule { }

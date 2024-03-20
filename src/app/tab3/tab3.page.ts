@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { ModalController, ToastController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { NewPrestadorComponent } from '../components/new-prestador/new-prestador.component';
+import { PerfilPrestadorComponent } from '../components/perfil-prestador/perfil-prestador.component';
+import { Prestador } from '../services/prestador.service';
 
 @Component({
   selector: 'app-tab3',
@@ -39,7 +41,21 @@ export class Tab3Page implements OnInit {
     }
   ]
 
-  constructor(private modalCtrl: ModalController, private authService: AuthService, private toastController: ToastController, private router: Router) { }
+  componentsAdmin = [
+    {
+      title: 'Perfil',
+      buttonText: 'Abrir Componente',
+      calculatorModal: 'componente-modal-1'
+    }
+  ]
+
+  prestadores: Prestador[] = [];
+
+  constructor(
+    private modalCtrl: ModalController,
+    private authService: AuthService,
+    private toastController: ToastController,
+    private router: Router) { }
 
   ngOnInit() {
     console.log('No robes datos');
@@ -47,11 +63,22 @@ export class Tab3Page implements OnInit {
 
   logout() {
     localStorage.removeItem(this.authService.tokenKey);
-    console.log('Cerrando sesión');
-    this.authService.logout();
-    this.router.navigateByUrl('menu/tabs/tab1', { replaceUrl: true });
-    this.showToast();
+    this.authService.logout().subscribe(
+      () => {
+        console.log('Usuario deslogueado con éxito');
+        this.router.navigateByUrl('menu/tabs/tab1', { replaceUrl: true });
+        this.showToast();
+      },
+      (error) => {
+        console.error('Error al desloguear el usuario:', error);
+      }
+    );
   }
+
+  isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
+
   async showToast() {
     const message = '¡Has cerrado sesión con éxito!';
     const toast = await this.toastController.create({
@@ -97,8 +124,25 @@ export class Tab3Page implements OnInit {
     await modal.present();
   }
 
-  isLoggedIn(): boolean {
-    return this.authService.isLoggedIn();
+
+
+  async perfil(componenteModal: string) {
+    let component;
+    switch (componenteModal) {
+      case 'componente-modal-1':
+        component = PerfilPrestadorComponent;
+        break;
+      default:
+        console.error('Modal no reconocido');
+        return;
+    }
+    const modal = await this.modalCtrl.create({
+      component: component,
+      mode: 'ios',
+      backdropDismiss: false,
+    });
+
+    await modal.present();
   }
 
 }

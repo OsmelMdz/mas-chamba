@@ -4,11 +4,15 @@
 
 .profile_photo {
   border-radius: 100%;
+  width: 60px !important;
+  height: auto !important;
+  margin: 3% 0;
+  margin-left: 5%;
 }
 
 
 ion-button{
-  color:azure;
+  color:rgb(255, 225, 0);
   border-radius: 50%;
   display: block;
 }
@@ -39,10 +43,13 @@ ion-card {
         padding: 0 0 0 5px;
         font-size: 12px;
         height: 12px;
+        width: 12px;
+        margin: 0 0 0 5px;
 
         ion-icon {
           height: 14px;
           width: 14px;
+          margin: 0 0 0 5px;
         }
       }
     }

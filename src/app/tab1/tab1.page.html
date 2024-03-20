@@ -3,31 +3,30 @@
     <ion-grid>
       <ion-row>
         <ion-col size="10">
-          <ion-searchbar style="margin-top: 10px;" animated="true" mode="ios" color="light"
+          <ion-searchbar style="margin: 15px auto auto auto;" animated="true" mode="ios" color="light"
             placeholder="Búsca el nombre de tú colonia"></ion-searchbar>
         </ion-col>
+
         <ion-col size="2" *ngIf="isLoggedIn()">
-          <ion-button id="popover-button" style="width: 60px; height: 37px; margin-left: auto; margin-top: 18px;">
-            <img src="https://www.ahrexpomexico.com/wp-content/uploads/2023/07/recorte-edgar.jpg"
-              style="width: 50px; height: 35px; " />
+         <!--  <ion-button id="popover-button" style="width: 60px; height: 37px; margin: 10% auto 10% auto;">
+            <img src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+              style="width: 100%; height: auto;" />
+          </ion-button> -->
+          <ion-button id="popover-button" style="width: 60px; height: 37px; margin: 10% auto 10% auto;">
+            <ion-icon slot="icon-only" name="person-circle"></ion-icon>
           </ion-button>
           <ion-popover trigger="popover-button" [dismissOnSelect]="true">
             <ng-template>
               <ion-content>
-                <ion-list *ngFor="let component of components">
-                  <ion-item (click)="perfil(component.calculatorModal)" [button]="true" [detail]="false">Ver perfil</ion-item>
-                  <ion-item (click)="logout()" [button]="true" [detail]="false">Cerrar sesión</ion-item>
-                 <!--  <ion-item *ngFor="let component of components">
-                    <ion-label>{{component.title}}</ion-label>
-                    <ion-button (click)="openComponentes(component.calculatorModal)" style="color:azure">
-                      <ion-icon aria-hidden="true" name="add"></ion-icon>
-                    </ion-button>
-                  </ion-item> -->
+                <ion-list *ngFor="let componentcon of components">
+                  <ion-item (click)="perfil(componentcon.calculatorModal)">Ver perfil</ion-item>
+                  <ion-item (click)="logout()">Cerrar sesión</ion-item>
                 </ion-list>
               </ion-content>
             </ng-template>
           </ion-popover>
         </ion-col>
+
       </ion-row>
     </ion-grid>
   </ion-toolbar>
@@ -43,24 +42,24 @@
         <ng-container *ngIf="isLargeScreen; else smallScreen">
           <ion-col size-lg="4" size-md="6" size-sm="6" size-xs="12">
             <ion-card>
-              <ion-card-content>
+              <ion-card-content  *ngFor="let component of components">
                 <img alt="Perfil del prestador" src="{{prestador.imagen}}" onerror="this.onerror=null;this.src='https://ionicframework.com/docs/img/demos/thumbnail.svg'" />
                 <ion-card-title>{{prestador.nombre}}</ion-card-title>
                 <ion-card-subtitle>{{ prestador.a_paterno }}</ion-card-subtitle>
                 <h3>Plomero</h3>
-                <ion-button class="contactar_button" href="pages/perfil_prest">Contactar</ion-button>
+                <ion-button class="contactar_button" (click)="contactar(component.calculatorModal)">Contactar</ion-button>
               </ion-card-content>
             </ion-card>
           </ion-col>
         </ng-container>
         <ng-template #smallScreen>
           <ion-card>
-            <ion-card-content>
+            <ion-card-content  *ngFor="let component of components">
               <ion-img src="{{prestador.imagen}}"></ion-img>
               <ion-card-title>{{prestador.nombre}}</ion-card-title>
               <ion-card-subtitle>{{ prestador.a_paterno }}</ion-card-subtitle>
               <h3>Plomero</h3>
-              <ion-button class="contactar_button" href="pages/perfil_prest">Contactar</ion-button>
+              <ion-button class="contactar_button" (click)="contactar(component.calculatorModal)">Contactar</ion-button>
             </ion-card-content>
           </ion-card>
         </ng-template>

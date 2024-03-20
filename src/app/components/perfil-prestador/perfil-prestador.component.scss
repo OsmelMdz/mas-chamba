@@ -24,7 +24,18 @@
   padding-right: 6px;
 }
 
+ion-thumbnail {
+  --size: 140px;
+  --border-radius: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.profile-container {
+  display: flex;
+  justify-content: center;
+}
 
 .container{
   --background: #0C4592;

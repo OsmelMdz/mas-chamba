@@ -5,22 +5,6 @@
         <h1 class="ion-padding" style="color: azure; font-size: large; margin-left: 8px; margin-top:15px;">Más Chamba
         </h1>
       </ion-col>
-      <ion-col size="2" *ngIf="isLoggedIn()">
-        <ion-button id="popover-button" style="width: 60px; height: 37px; margin-left: auto; margin-top: 18px;">
-          <img src="https://www.ahrexpomexico.com/wp-content/uploads/2023/07/recorte-edgar.jpg"
-            style="width: 50px; height: 35px; " />
-        </ion-button>
-        <ion-popover trigger="popover-button" [dismissOnSelect]="true">
-          <ng-template>
-            <ion-content>
-              <ion-list>
-                <ion-item [button]="true" [detail]="false">Ver perfil</ion-item>
-                <ion-item (click)="logout()" [button]="true" [detail]="false">Cerrar sesión</ion-item>
-              </ion-list>
-            </ion-content>
-          </ng-template>
-        </ion-popover>
-      </ion-col>
     </ion-row>
   </ion-grid>
 </ion-toolbar>
@@ -29,7 +13,6 @@
 <ion-content [fullscreen]="true" class="ion-padding">
 
   <ion-grid>
-
     <ion-text>
       <h1 class="ion-padding">Servicios</h1>
     </ion-text>

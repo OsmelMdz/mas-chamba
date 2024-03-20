@@ -1,0 +1,89 @@
+<ion-header *ngIf="userProfile">
+  <ion-toolbar class="ion-text-center" color="primary">
+    <ion-buttons>
+      <ion-button fill="clear" (click)="close()">
+        <ion-icon slot="icon-only" color="light" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title id="titulo">
+      Perfil del prestador {{ userProfile.user.nombre | uppercase }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!-- <ion-content>
+  <div class="spinner-container" *ngIf="!userProfile">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
+  <div *ngIf="userProfile" class="profile-container">
+    <ion-card>
+      <ion-card-header>
+        <img [src]="userProfile.user.imagen" alt="Imagen de perfil"
+          onerror="this.onerror=null;this.src='https://ionicframework.com/docs/img/demos/thumbnail.svg'">
+        <ion-card-subtitle>Pefil {{ userProfile.user.tipo_cuenta }}</ion-card-subtitle>
+        <ion-card-title>{{ userProfile.user.nombre | uppercase }} {{ userProfile.user.a_paterno | uppercase}} {{
+          userProfile.user.a_materno | uppercase }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p><strong>Correo:</strong> {{ userProfile.email }}</p>
+        <ion-row>
+          <ion-col size="6">
+            <ion-button class="call_button" (click)="llamar(userProfile.user.telefono)">
+              <ion-icon class="icon-button" name="call-outline"></ion-icon>Llamar
+            </ion-button>
+          </ion-col>
+          <ion-col size="6">
+            <ion-button class="whats_button" color="secondary"
+              (click)="contactarPorWhatsApp(userProfile.user.telefono)">
+              <ion-icon class="icon-button" name="logo-whatsapp"></ion-icon>WhatsApp
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content> -->
+
+<ion-content *ngIf="isAuth(); else politicasPrivacidad">
+  <!-- Contenido del componente cuando el usuario está autenticado -->
+  <div class="spinner-container" *ngIf="!userProfile">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
+  <div *ngIf="userProfile" class="profile-container">
+    <ion-card>
+      <ion-card-header>
+        <img [src]="userProfile.user.imagen" alt="Imagen de perfil"
+          onerror="this.onerror=null;this.src='https://ionicframework.com/docs/img/demos/thumbnail.svg'">
+        <ion-card-subtitle>Pefil {{ userProfile.user.tipo_cuenta }}</ion-card-subtitle>
+        <ion-card-title>{{ userProfile.user.nombre | uppercase }} {{ userProfile.user.a_paterno | uppercase}} {{
+          userProfile.user.a_materno | uppercase }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p><strong>Correo:</strong> {{ userProfile.email }}</p>
+        <ion-row>
+          <ion-col size="6">
+            <ion-button class="call_button" (click)="llamar(userProfile.user.telefono)">
+              <ion-icon class="icon-button" name="call-outline"></ion-icon>Llamar
+            </ion-button>
+          </ion-col>
+          <ion-col size="6">
+            <ion-button class="whats_button" color="secondary"
+              (click)="contactarPorWhatsApp(userProfile.user.telefono)">
+              <ion-icon class="icon-button" name="logo-whatsapp"></ion-icon>WhatsApp
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
+
+<ng-template #politicasPrivacidad>
+  <div class="politicas-privacidad-message">
+    <img class="logo-img" src="../../assets/img/Logo.png">
+    <p>Para acceder a esta página, por favor acepta nuestras políticas de privacidad.</p>
+    <button ion-button (click)="close()">Salir</button>
+  </div>
+</ng-template>

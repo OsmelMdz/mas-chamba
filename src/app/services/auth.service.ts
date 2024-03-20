@@ -33,14 +33,15 @@ export class AuthService {
       );
   }
 
-  perfil(): Observable<any> {
+  getPerfilPrestador(): Observable<any> {
     const bearerToken = `Bearer ${this.getToken()}`;
     const csrfToken = localStorage.getItem('csrf_token') || '';
     const headers = new HttpHeaders({
       'Authorization': bearerToken,
       'X-CSRF-TOKEN': csrfToken
     });
-    return this.http.get(`${this.apiUrl}/profile`, { headers });
+    const url = `${this.apiUrl}/profile`;
+    return this.http.get<any>(url, { headers });
   }
 
   isLoggedIn(): boolean {
@@ -52,7 +53,6 @@ export class AuthService {
     const token = localStorage.getItem('auth_token');
     return !!token;
   }
-
 
   logout() {
     const bearerToken = `Bearer ${this.getToken()}`;

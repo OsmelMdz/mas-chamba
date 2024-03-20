@@ -6,7 +6,7 @@
       </ion-button>
     </ion-buttons>
     <ion-title id="titulo">
-      Agregar Un Nuevo Prestador de Servicio
+      Agregar Prestador de Servicio
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -27,6 +27,16 @@
     <ion-item lines="none">
       <ion-label position="stacked" text-wrap>Apellido Materno</ion-label>
       <ion-input type="text" formControlName="a_materno" required></ion-input>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-label position="stacked" text-wrap>Correo Electrónico</ion-label>
+      <ion-input type="email" formControlName="correo" required></ion-input>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-label position="stacked" text-wrap>Contraseña</ion-label>
+      <ion-input type="password" formControlName="contrasena" required></ion-input>
     </ion-item>
 
     <ion-item lines="none">
@@ -52,6 +62,7 @@
       <ion-label position="stacked">ingresar imagen</ion-label>
       <input type="file" formControlName="imagen" required>
     </ion-item>
+    
 
     <ion-item lines="none">
       <ion-label position="stacked">ingresar el INE</ion-label>

@@ -1,26 +1,33 @@
 <ion-toolbar class="new-background-color" style="display: flex; align-items: center; height:70px">
   <ion-grid>
     <ion-row>
+
       <ion-col size="10">
-        <h1 class="ion-padding" style="color: azure; font-size: large; margin-left: 8px; margin-top:15px;">
+        <h1 class="ion-padding" style="color: azure; font-size: large; margin-left: 8px;">
           Administración Más Chamba</h1>
       </ion-col>
-      <ion-col size="2" *ngIf="isLoggedIn()">
-        <ion-button id="popover-button" style="width: 60px; height: 37px; margin-left: auto; margin-top: 18px;">
-          <img src="https://www.ahrexpomexico.com/wp-content/uploads/2023/07/recorte-edgar.jpg"
-            style="width: 50px; height: 35px; " />
+
+      <ion-col size="2" *ngIf="isLoggedIn()"  style="margin: 10px auto auto auto;">
+       <!--  <ion-button id="popover-button" style="width: 60px; height: 37px; margin: 10% auto 10% auto;">
+          <img src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
+            style="width: 100%; height: auto;" />
+        </ion-button> -->
+
+        <ion-button id="popover-button" style="width: 60px; height: 37px; margin: 10% auto 10% auto;">
+          <ion-icon slot="icon-only" name="person-circle"></ion-icon>
         </ion-button>
         <ion-popover trigger="popover-button" [dismissOnSelect]="true">
           <ng-template>
             <ion-content>
-              <ion-list>
-                <ion-item [button]="true" [detail]="false">Ver perfil</ion-item>
-                <ion-item (click)="logout()" [button]="true" [detail]="false">Cerrar sesión</ion-item>
+              <ion-list *ngFor="let componentcon of componentsAdmin">
+                <ion-item (click)="perfil(componentcon.calculatorModal)">Ver perfil</ion-item>
+                <ion-item (click)="logout()">Cerrar sesión</ion-item>
               </ion-list>
             </ion-content>
           </ng-template>
         </ion-popover>
       </ion-col>
+
     </ion-row>
   </ion-grid>
 </ion-toolbar>
@@ -29,7 +36,7 @@
 <ion-content [fullscreen]="true" class="ion-padding">
 
   <ion-list lines="none" class="cards-container">
-    <h1 style="margin-left: 14px; margin-top: -10px;">Opciones</h1>
+    <h1 class="ion-padding">Agregar</h1>
     <ion-item *ngFor="let component of components">
       <ion-label>{{component.title}}</ion-label>
       <ion-button (click)="openComponentes(component.calculatorModal)" style="color:azure">
@@ -37,4 +44,35 @@
       </ion-button>
     </ion-item>
   </ion-list>
+
+  <ion-list lines="none" class="cards-container">
+    <h1 class="ion-padding">Actualizar</h1>
+    <ion-item *ngFor="let component of components">
+      <ion-label>{{component.title}}</ion-label>
+      <ion-button (click)="openComponentes(component.calculatorModal)" style="color:azure">
+        <ion-icon aria-hidden="true" name="cloud-upload"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-list lines="none" class="cards-container">
+    <h1 class="ion-padding">Desactivar</h1>
+    <ion-item *ngFor="let component of components">
+      <ion-label>{{component.title}}</ion-label>
+      <ion-button (click)="openComponentes(component.calculatorModal)" style="color:azure">
+        <ion-icon aria-hidden="true" name="trash"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-list lines="none" class="cards-container">
+    <h1 class="ion-padding">Eliminar de la base de datos</h1>
+    <ion-item *ngFor="let component of components">
+      <ion-label>{{component.title}}</ion-label>
+      <ion-button (click)="openComponentes(component.calculatorModal)" style="color:azure">
+        <ion-icon aria-hidden="true" name="server"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
 </ion-content>

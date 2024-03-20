@@ -1,0 +1,113 @@
+.back_ground_photo {
+  color: primary;
+}
+
+.profile_photo {
+  margin-top: 15px;
+}
+
+
+.call_button {
+  margin-top: 30px;
+  display: block;
+  color: azure;
+  height: 40px;
+}
+
+.whats_button {
+  margin-top: 30px;
+  display: block;
+  height: 40px;
+}
+
+.icon-button {
+  padding-right: 6px;
+}
+
+ion-thumbnail {
+  --size: 140px;
+  --border-radius: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-container {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  --background: #0C4592;
+  color: azure;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+}
+
+ion-spinner {
+  width: 100px;
+  height: 100px;
+}
+
+
+.ion-padding {
+  --background: url('/assets/imgs/color_box.png') 0 0/100% 12% no-repeat;
+  position: sticky;
+}
+
+
+.politicas-privacidad-message {
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 300px;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+.politicas-privacidad-message p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.politicas-privacidad-message button {
+  margin-top: 20px;
+  background-color: #0c4e9e;
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.politicas-privacidad-message button:hover {
+  background-color: #ffd000;
+  color: #000000;
+}
+
+.logo-img {
+  width: 30%;
+  margin: 2em auto 4em auto;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .logo-img {
+    width: 70%;
+  }
+}

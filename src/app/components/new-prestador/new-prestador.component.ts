@@ -1,16 +1,46 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavParams } from '@ionic/angular';
+import { NgxImageCompressService } from 'ngx-image-compress';
 import { AuthService } from 'src/app/services/auth.service';
 import { PrestadorService } from 'src/app/services/prestador.service';
 
+import { AbstractControl } from '@angular/forms';
+/*
+function fileTypeValidator(allowedTypes: string[]): (control: AbstractControl) => { [key: string]: any } | null {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const file = control.value;
+    if (!file || !file.name) {
+      return null;
+    }
+
+    const extension = file.name.split('.')[1].toLowerCase();
+    const isAllowedType = allowedTypes.includes(extension);
+
+    return isAllowedType ? null : { 'invalidFileType': { value: control.value } };
+  };
+}
+
+function fileSizeValidator(maxSize: number): (control: AbstractControl) => { [key: string]: any } | null {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const file = control.value;
+    if (!file) {
+      return null;
+    }
+
+    const size = file.size;
+    const isAllowedSize = size <= maxSize;
+
+    return isAllowedSize ? null : { 'invalidFileSize': { value: control.value } };
+  };
+} */
 interface Prestador {
   id: number;
   user_id: number;
   nombre: string;
   a_paterno: string;
   a_materno: string;
-  fecha_nacimiento: string;
+  fecha_nacimiento: Date;
   imagen: string;
   sexo: string;
   telefono: string;
@@ -20,7 +50,7 @@ interface Prestador {
   estatus: string;
 }
 
-interface Curso {
+/* interface Curso {
   id: number;
   nombre: string;
   descripcion: string;
@@ -45,7 +75,7 @@ interface Zona {
   id: number;
   nombre: string;
   prestador_id: number;
-}
+} */
 
 
 @Component({
@@ -61,8 +91,26 @@ export class NewPrestadorComponent implements OnInit {
     private fb: FormBuilder,
     private modalCtrl: ModalController,
     private prestadorService: PrestadorService,
-    private authService: AuthService
-  ) { }
+    private authService: AuthService,
+    private compressImg: NgxImageCompressService,
+    private nParams: NavParams
+  ) {
+    this.formPrestador = this.fb.group({
+      nombre: ['', Validators.required],
+      a_paterno: ['', Validators.required],
+      a_materno: ['', Validators.required],
+      fecha_nacimiento: ['', Validators.required],
+      telefono: [''],
+      sexo: [''],
+      imagen: [null, [Validators.required]],
+      identificacion_personal: [null, [Validators.required]],
+      comprobante_domicilio: [null, [Validators.required]],
+      tipo_cuenta: [''],
+      estatus: ['Activo'],
+      email: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+  }
 
   async close() {
     await this.modalCtrl.dismiss();
@@ -78,50 +126,34 @@ export class NewPrestadorComponent implements OnInit {
       nombre: ['', Validators.required],
       a_paterno: ['', Validators.required],
       a_materno: ['', Validators.required],
-      fecha_nacimiento: dateControl,
+      fecha_nacimiento: ['', Validators.required],
       telefono: [''],
       sexo: [''],
-      imagen: [''],
-      identificacion_personal: [''],
-      comprobante_domicilio: [''],
+      imagen: [null, [Validators.required]],
+      identificacion_personal: [null, [Validators.required]],
+      comprobante_domicilio: [null, [Validators.required]],
       tipo_cuenta: [''],
-      estatus: ['Activo']
+      estatus: ['Activo'],
+      email: ['', Validators.required],
+      password: ['', Validators.required]
     });
   }
 
-  onImagenChange($event: { target: { files: FileList; }; }): void {
-    const fileList: FileList = $event.target.files;
-    if (fileList.length > 0) {
-      const file = fileList[0];
-      this.formPrestador.get('imagen')?.setValue(file);
-      this.generarURL(file);
-    }
-  }
-
-  generarURL(image: any) {
-    const reader = new FileReader();
-    reader.readAsDataURL(image);
-    reader.onload = () => {
-      this.imagen = reader.result as string;
-    };
-  }
-
   postPrestadores(): void {
-    /* const prestadorToCreate: Prestador = this.formPrestador.value;
-    this.prestadorService.postPrestadores(prestadorToCreate).subscribe(
+    this.prestadorService.postPrestador(this.formPrestador.value).subscribe(
       (response) => {
-        console.log('Prestador creado:', response);
+        console.log(response);
         this.close();
       },
       (error) => {
-        console.error('Error al crear el prestador:', error);
-        // Manejar el error adecuadamente
+        console.log(error);
       }
-    ); */
+    );
   }
 
   submit() {
     this.postPrestadores();
   }
-
 }
+
+

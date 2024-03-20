@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { PrestadorService, Prestador, PrestadoresResponse } from '../services/prestador.service';
 import { AuthService } from '../services/auth.service';
-import { ModalController, ToastController } from '@ionic/angular';
+import { AlertController, ModalController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { PerfilPrestadorComponent } from '../components/perfil-prestador/perfil-prestador.component';
-import { user_profile } from '../components/perfil-prestador/perfil-prestador.component';
+import { ContactarComponentComponent } from '../components/contactar-component/contactar-component.component';
+import { PoliticasComponent } from '../components/politicas/politicas.component';
+import { HttpHeaders } from '@angular/common/http';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -28,7 +30,8 @@ export class Tab1Page implements OnInit {
     private prestadorService: PrestadorService,
     private authService: AuthService,
     private toastController: ToastController,
-    private router: Router) { }
+    private router: Router,
+    private alertController: AlertController,) { }
 
   async ngOnInit() {
     console.log('No robes datos');
@@ -53,20 +56,33 @@ export class Tab1Page implements OnInit {
   }
 
   logout() {
-    localStorage.removeItem(this.authService.tokenKey);
-    this.authService.logout().subscribe(
-      () => {
-        console.log('Usuario deslogueado con éxito');
-        this.router.navigateByUrl('menu/tabs/tab1', { replaceUrl: true });
-        this.showToast('¡Has cerrado sesión con éxito!');
-      },
-      (error) => {
-        console.error('Error al desloguear el usuario:', error);
-      }
-    );
+    const token = this.authService.getToken();
+    if (token !== null) {
+      const bearerToken = `Bearer ${token}`;
+      const csrfToken = localStorage.getItem('csrf_token') || '';
+      const headers = new HttpHeaders({
+        'Authorization': bearerToken,
+        'X-CSRF-TOKEN': csrfToken
+      });
+      this.authService.logout().subscribe(
+        () => {
+          console.log('Usuario deslogueado con éxito');
+          localStorage.removeItem(this.authService.tokenKey);
+          this.router.navigateByUrl('menu/tabs/tab1', { replaceUrl: true });
+          this.showToast();
+        },
+        (error) => {
+          console.error('Error al desloguear el usuario:', error);
+        }
+      );
+    } else {
+      console.error('No se encontró un token de autenticación en el almacenamiento local');
+      this.router.navigateByUrl('login', { replaceUrl: true });
+    }
   }
 
-  async showToast(message: string) {
+  async showToast() {
+    const message = '¡Has cerrado sesión con éxito!';
     const toast = await this.toastController.create({
       message,
       duration: 2000
@@ -97,4 +113,60 @@ export class Tab1Page implements OnInit {
     await modal.present();
   }
 
+  async contactar(componenteModal: string) {
+    const alert = await this.alertController.create({
+      header: 'Acepta las políticas de privacidad',
+      message: 'Al hacer clic en "Aceptar", confirmas que has leído y aceptas nuestras políticas de privacidad.',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary'
+        },
+        {
+          text: 'Ver políticas',
+          handler: () => {
+            this.verPoliticas();
+          }
+        },
+        {
+          text: 'Aceptar',
+          handler: () => {
+            this.abrirModal(componenteModal);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async verPoliticas() {
+    const modal = await this.modalCtrl.create({
+      component: PoliticasComponent,
+      mode: 'ios'
+    });
+
+    await modal.present();
+  }
+
+  async abrirModal(componenteModal: string) {
+    let componentcon;
+    switch (componenteModal) {
+      case 'componente-modal-1':
+        componentcon = ContactarComponentComponent;
+        break;
+      default:
+        console.error('Modal no reconocido');
+        return;
+    }
+
+    const modal = await this.modalCtrl.create({
+      component: componentcon,
+      mode: 'ios',
+      backdropDismiss: false
+    });
+
+    await modal.present();
+  }
 }
