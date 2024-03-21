@@ -3,6 +3,8 @@ import { ServicioService, Servicio ,ServiciosResponse } from '../services/servic
 import { AuthService } from '../services/auth.service';
 import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { UserProfile } from '../components/perfil-prestador/perfil-prestador.component';
+import { Curso, CursoService, CursosResponse } from '../services/curso.service';
 
 @Component({
   selector: 'app-tab2',
@@ -12,13 +14,32 @@ import { Router } from '@angular/router';
 export class Tab2Page implements OnInit {
 
   servicios: Servicio[] = [];
+  cursos: Curso[] = [];
   isLargeScreen: boolean = true;
-
-  constructor(private servicioService: ServicioService, private authService: AuthService, private toastController: ToastController, private router: Router) { }
+  userProfile: UserProfile | undefined;
+  constructor(
+    private servicioService: ServicioService,
+    private cursoService: CursoService,
+    private authService: AuthService,
+    private toastController: ToastController,
+    private router: Router) { }
 
   ngOnInit(): void {
     console.log('No robes datos');
     this.getServicios();
+    this.getCursos();
+    this.perfilA();
+  }
+
+  perfilA() {
+    this.authService.getPerfilPrestador().subscribe(
+      (response: any) => {
+        this.userProfile = response.user_profile;
+      },
+      (error) => {
+        console.error('Error al obtener el perfil del prestador:', error);
+      }
+    );
   }
 
   getServicios(): void {
@@ -29,6 +50,18 @@ export class Tab2Page implements OnInit {
       },
       (error) => {
         console.error('Error al obtener los servicios:', error);
+      }
+    );
+  }
+
+  getCursos(): void {
+    this.cursoService.getCursos().subscribe(
+      (response: Curso[]) => {
+        this.cursos = response;
+        console.log('Cursos:', this.cursos);
+      },
+      (error) => {
+        console.error('Error al obtener los cursos:', error);
       }
     );
   }
@@ -50,6 +83,11 @@ export class Tab2Page implements OnInit {
   }
 
   isLoggedIn(): boolean {
-    return this.authService.isLoggedIn();
+    return this.authService.isLoggedIn() && (this.userProfile?.role_id === 1 || this.userProfile?.role_id === 2);
   }
+
+  isAdministradorG(): boolean {
+    return this.authService.isLoggedIn() && this.userProfile?.role_id === 1;
+  }
+
 }

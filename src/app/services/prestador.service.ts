@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { Observable, throwError, Subject } from 'rxjs';
 import { AuthService } from './auth.service';
 
 export { PrestadoresResponse, Prestador };
@@ -18,7 +19,7 @@ interface Prestador {
   comprobante_domicilio: string;
   tipo_cuenta: string;
   estatus: string;
-  imagenUrl?: string;
+  imagenUrl: string;
 }
 
 interface PrestadoresResponse {
@@ -31,7 +32,7 @@ interface PrestadoresResponse {
   providedIn: 'root'
 })
 export class PrestadorService {
-
+  private postPrestadoresSubject = new Subject<any>();
   apiUrl = 'http://127.0.0.1:8000/api';
   baseUrl = 'http://localhost:8100/public/storage/imagenes/';
 
@@ -44,26 +45,25 @@ export class PrestadorService {
     return this.http.get<PrestadoresResponse>(`${this.apiUrl}/prestadores`, { headers });
   }
 
-  /* getPrestadoresF(): Observable<PrestadoresResponse> {
-    return this.http.get<PrestadoresResponse>(`${this.apiUrl}/prestadoresF`);
-  } */
-
   getPrestadoresF(): Observable<PrestadoresResponse> {
     return this.http.get<PrestadoresResponse>(`${this.apiUrl}/prestadoresF`)
       .pipe(
         catchError(this.handleError)
       );
   }
-  
 
-  private handleError(error: any): Observable<never> {
-    console.error('Error fetching prestadores:', error);
-    return throwError(error); // Use the throwError function from rxjs to return an Observable error
-  }
-  postPrestador(prestadorData: Prestador): Observable<PrestadoresResponse> {
+  postPrestador(prestadorData: FormData): Observable<PrestadoresResponse> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.authService.getToken()}`
     });
     return this.http.post<PrestadoresResponse>(`${this.apiUrl}/prestadores`, prestadorData, { headers });
   }
+
+
+
+  private handleError(error: any): Observable<never> {
+    console.error('Error fetching prestadores:', error);
+    return throwError(error); // Use the throwError function from rxjs to return an Observable error
+  }
+
 }

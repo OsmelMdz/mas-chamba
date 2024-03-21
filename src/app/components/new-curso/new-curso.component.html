@@ -1,3 +1,35 @@
-<p>
-  new-curso works!
-</p>
+<ion-header>
+  <ion-toolbar class="ion-text-center" color="primary">
+    <ion-buttons>
+      <ion-button fill="clear" (click)="close()">
+        <ion-icon slot="icon-only" color="light" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title id="titulo">
+      Agregar Curso
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="cursoForm" (ngSubmit)="submit()">
+    <ion-item lines="none">
+      <ion-label position="stacked">Ingresar Imagen</ion-label>
+      <input type="file" (change)="onFileChange($event)" required>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-label position="stacked" text-wrap>Nombre del curso</ion-label>
+      <ion-input type="text" formControlName="nombre" required></ion-input>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-label position="stacked" text-wrap>Descripcion del curso</ion-label>
+      <ion-input type="text" formControlName="descripcion" required></ion-input>
+    </ion-item>
+
+    <ion-button [disabled]="!cursoForm.valid" type="submit" expand="full">
+      Guardar
+    </ion-button>
+  </form>
+</ion-content>

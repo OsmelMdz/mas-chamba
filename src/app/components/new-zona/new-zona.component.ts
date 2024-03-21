@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-new-zona',
@@ -7,8 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewZonaComponent  implements OnInit {
 
-  constructor() { }
+  constructor(
+    private modalCtrl: ModalController,
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('NewServicioComponent');
+  }
 
+  async close() {
+    await this.modalCtrl.dismiss();
+  }
 }
