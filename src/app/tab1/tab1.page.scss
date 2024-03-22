@@ -3,16 +3,30 @@
 }
 
 .profile_photo {
-  border-radius: 100%;
+  border-radius: 15px;
   width: 60px !important;
   height: auto !important;
   margin: 3% 0;
   margin-left: 5%;
 }
 
+ion-thumbnail {
+  --size: 220px;
+  --border-radius: 14px;
+  display: block;
+  margin: auto;
+  width: var(--size);
+  height: var(--size);
+  overflow: hidden; 
+}
+
+ion-thumbnail img {
+  width: 100%; 
+  height: 100%;
+  object-fit: cover; 
+}
 
 ion-button{
-  color:rgb(255, 225, 0);
   border-radius: 50%;
   display: block;
 }
@@ -24,12 +38,8 @@ ion-card {
     padding-bottom: 5px;
   }
 
-  .card-img {
-    max-width: 50%;
-    max-height: 50%;
-    object-fit: cover;
-    margin: 0 auto;
-    margin-left: 25%;
+  ion-card-content {
+    text-align: center;
   }
 
   ion-footer {

@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { catchError } from 'rxjs/operators';
 import { Observable, throwError, Subject } from 'rxjs';
 import { AuthService } from './auth.service';
@@ -19,7 +19,6 @@ interface Prestador {
   comprobante_domicilio: string;
   tipo_cuenta: string;
   estatus: string;
-  imagenUrl: string;
 }
 
 interface PrestadoresResponse {
@@ -34,29 +33,36 @@ interface PrestadoresResponse {
 export class PrestadorService {
   private postPrestadoresSubject = new Subject<any>();
   apiUrl = 'http://127.0.0.1:8000/api';
-  baseUrl = 'http://localhost:8100/public/storage/imagenes/';
+  getNewProduct: EventEmitter<any> = new EventEmitter();
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(
+    private http: HttpClient, 
+    private authService: AuthService) { }
 
+    //* Obtener Prestadores con authenticacion*/
   getPrestadores(): Observable<PrestadoresResponse> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.authService.getToken()}`
     });
-    return this.http.get<PrestadoresResponse>(`${this.apiUrl}/prestadores`, { headers });
+    return this.http.get<PrestadoresResponse>(`${this.apiUrl}/prestadores`, { headers })
+      .pipe(
+        catchError(this.handleError)
+      );
   }
-
+  //* Obtener Prestadores sin autorizacion */
   getPrestadoresF(): Observable<PrestadoresResponse> {
     return this.http.get<PrestadoresResponse>(`${this.apiUrl}/prestadoresF`)
       .pipe(
         catchError(this.handleError)
       );
   }
-
-  postPrestador(prestadorData: FormData): Observable<PrestadoresResponse> {
+  
+  //* Nuevo Prestador */
+  newPrestador(datos: any): Observable<Prestador> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.authService.getToken()}`
     });
-    return this.http.post<PrestadoresResponse>(`${this.apiUrl}/prestadores`, prestadorData, { headers });
+    return this.http.post<Prestador>(`${this.apiUrl}/prestadores`, datos, { headers });
   }
 
 

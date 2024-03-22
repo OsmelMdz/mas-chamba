@@ -56,7 +56,7 @@ export class NewCursoComponent  implements OnInit {
       this.cursoForm.reset();
       await this.modalCtrl.dismiss();
       this.showSuccessToast('Curso creado con exito');
-      this.router.navigateByUrl('menu', { replaceUrl: true });
+      this.router.navigateByUrl('menu/tabs/tab2', { replaceUrl: true });
     } catch (error) {
       const err = error as { status: number };
       console.error('Error al crear el servicio:', err);

@@ -11,6 +11,7 @@ import { NewPrestadorComponent } from '../components/new-prestador/new-prestador
   styleUrls: ['./tab4.page.scss'],
 })
 export class Tab4Page implements OnInit {
+  telefono = '9511175007'
 
   componentsFormulario = [
     {
@@ -59,11 +60,17 @@ export class Tab4Page implements OnInit {
 
   async verPoliticas() {
     const modal = await this.modalCtrl.create({
-      component: PoliticasComponent, 
+      component: PoliticasComponent,
       mode: 'ios'
     });
 
     await modal.present();
+  }
+
+  contactarPorWhatsApp() {
+    const whatsappNumber = '52'+ '9511175007';
+    const message = encodeURIComponent('Hola, necesito más información de como incribirme a Más Chamba.');
+    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
   }
 
   async openComponentes(componenteModal: string) {

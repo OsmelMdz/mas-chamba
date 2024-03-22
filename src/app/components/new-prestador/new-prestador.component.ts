@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { PrestadorService } from 'src/app/services/prestador.service';
 
 @Component({
@@ -9,16 +9,28 @@ import { PrestadorService } from 'src/app/services/prestador.service';
   styleUrls: ['./new-prestador.component.scss'],
 })
 export class NewPrestadorComponent implements OnInit {
-  formPrestador!: FormGroup; // No inicializamos aquí, lo haremos en el constructor
+  formPrestador!: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private modalCtrl: ModalController,
-    private prestadorService: PrestadorService
+    private prestadorService: PrestadorService,
+    private toastController: ToastController
   ) { }
 
   ngOnInit() {
     this.initializeForm();
+  }
+
+  onFileChange(event: Event, field: string): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      const formControl = this.formPrestador.get(field);
+      if (formControl) {
+        formControl.setValue(file);
+      }
+    }
   }
 
   initializeForm() {
@@ -29,12 +41,12 @@ export class NewPrestadorComponent implements OnInit {
       fecha_nacimiento: ['', Validators.required],
       telefono: [''],
       sexo: [''],
-      imagen: [null, Validators.required], // No necesitas un array para un solo validador
+      imagen: [null, Validators.required],
       identificacion_personal: [null, Validators.required],
       comprobante_domicilio: [null, Validators.required],
       tipo_cuenta: [''],
       estatus: ['Activo'],
-      email: ['', [Validators.required, Validators.email]], // Agregamos un validador de correo electrónico
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
   }
@@ -45,28 +57,34 @@ export class NewPrestadorComponent implements OnInit {
 
   postPrestadores(): void {
     if (this.formPrestador.valid) {
-      const formValue = this.formPrestador.value;
       const formData = new FormData();
-      formData.append('nombre', formValue.nombre);
-      formData.append('a_paterno', formValue.a_paterno);
-      formData.append('a_materno', formValue.a_materno);
-      formData.append('fecha_nacimiento', formValue.fecha_nacimiento);
-      formData.append('telefono', formValue.telefono);
-      formData.append('sexo', formValue.sexo);
-      formData.append('tipo_cuenta', formValue.tipo_cuenta);
-      formData.append('estatus', formValue.estatus);
-      formData.append('email', formValue.email);
-      formData.append('password', formValue.password);
-      formData.append('imagen', formValue.imagen);
-      formData.append('identificacion_personal', formValue.identificacion_personal);
-      formData.append('comprobante_domicilio', formValue.comprobante_domicilio);
-      this.prestadorService.postPrestador(formData).subscribe(
+      Object.entries(this.formPrestador.value).forEach(([key, value]) => {
+        if (value) {
+          if (key === 'imagen' || key === 'identificacion_personal' || key === 'comprobante_domicilio') {
+            if (value instanceof File) {
+              formData.append(key, value, value.name);
+            } else {
+              console.warn(`El valor para '${key}' no es un archivo.`);
+            }
+          } else {
+            if (typeof value === 'string') {
+              formData.append(key, value);
+            } else {
+              console.warn(`El valor para '${key}' no es una cadena.`);
+            }
+          }
+        }
+      });
+
+      this.prestadorService.newPrestador(formData).subscribe(
         (response) => {
           console.log(response);
+          this.showSuccessToast('Prestador agregado exitosamente');
           this.close();
         },
         (error) => {
           console.log(error);
+          this.showErrorToast('Error al agregar prestador');
         }
       );
     } else {
@@ -74,8 +92,27 @@ export class NewPrestadorComponent implements OnInit {
     }
   }
 
-
   submit() {
     this.postPrestadores();
+  }
+
+  async showSuccessToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'top',
+      color: 'success'
+    });
+    toast.present();
+  }
+
+  async showErrorToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'top',
+      color: 'danger'
+    });
+    toast.present();
   }
 }

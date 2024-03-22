@@ -13,8 +13,13 @@ import { Prestador, PrestadoresResponse, PrestadorService } from 'src/app/servic
 export class ContactarComponentComponent implements OnInit {
   userProfile: UserProfile | undefined;
   prestadores: Prestador[] = [];
-  constructor(private modalCtrl: ModalController, private router: Router, private authService: AuthService,
-    private prestadorService: PrestadorService,public alertController: AlertController) { }
+  
+  constructor(
+    private modalCtrl: ModalController,
+    private router: Router,
+    private authService: AuthService,
+    private prestadorService: PrestadorService,
+    public alertController: AlertController) { }
 
   async close() {
     await this.modalCtrl.dismiss();
@@ -67,6 +72,7 @@ export class ContactarComponentComponent implements OnInit {
     const message = encodeURIComponent('Buenos días, necesito de sus servicios.');
     window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
   }
+
 
   isAuth(): boolean {
     const token = localStorage.getItem('auth_token');

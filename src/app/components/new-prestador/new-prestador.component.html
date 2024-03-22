@@ -57,20 +57,19 @@
         <ion-select-option value="Prefiero no decirlo">Prefiero no decirlo</ion-select-option>
       </ion-select>
     </ion-item>
-
     <ion-item lines="none">
       <ion-label position="stacked">Ingresar Imagen</ion-label>
-      <input type="file" formControlName="imagen" required>
+      <input type="file" (change)="onFileChange($event, 'imagen')" formControlName="imagen" required accept="image/jpeg, image/png, image/jpg">
     </ion-item>
 
     <ion-item lines="none">
       <ion-label position="stacked">Ingresar el INE</ion-label>
-      <input type="file" formControlName="identificacion_personal" required>
+      <input type="file" (change)="onFileChange($event, 'identificacion_personal')" formControlName="identificacion_personal" required accept="application/pdf">
     </ion-item>
 
     <ion-item lines="none">
       <ion-label position="stacked">Ingresar el Comprobante de Domicilio</ion-label>
-      <input type="file" formControlName="comprobante_domicilio" required>
+      <input type="file" (change)="onFileChange($event, 'comprobante_domicilio')" formControlName="comprobante_domicilio" required accept="application/pdf">
     </ion-item>
 
     <ion-item lines="none">
@@ -87,82 +86,3 @@
 
   </form>
 </ion-content>
-
-
-<!-- <ion-content>
-  <form [formGroup]="formPrestador" (ngSubmit)="submit()">
-
-    <ion-item lines="none">
-      <ion-label position="stacked" text-wrap>Nombre</ion-label>
-      <ion-input type="text" formControlName="nombre" required></ion-input>
-    </ion-item>
-
-    <ion-item lines="none">
-      <ion-label position="stacked" text-wrap>Apellido Paterno</ion-label>
-      <ion-input type="text" formControlName="a_paterno" required></ion-input>
-    </ion-item>
-
-    <ion-item lines="none">
-      <ion-label position="stacked" text-wrap>Apellido Materno</ion-label>
-      <ion-input type="text" formControlName="a_materno" required></ion-input>
-    </ion-item>
-
-    <ion-item lines="none">
-      <ion-label position="stacked" text-wrap>Correo Electrónico</ion-label>
-      <ion-input type="email" formControlName="correo" required></ion-input>
-    </ion-item>
-
-    <ion-item lines="none">
-      <ion-label position="stacked" text-wrap>Contraseña</ion-label>
-      <ion-input type="password" formControlName="contrasena" required></ion-input>
-    </ion-item>
-
-    <ion-item lines="none">
-      <ion-label position="stacked">Fecha de Nacimiento</ion-label>
-      <ion-input type="date" formControlName="fecha_nacimiento"></ion-input>
-    </ion-item>
-
-    <ion-item lines="none">
-      <ion-label position="stacked" text-wrap>Número de Teléfono</ion-label>
-      <ion-input type="tel" formControlName="telefono" required></ion-input>
-    </ion-item>
-
-    <ion-item lines="none">
-      <ion-label position="stacked">Sexo</ion-label>
-      <ion-select formControlName="sexo" required>
-        <ion-select-option value="Hombre">Hombre</ion-select-option>
-        <ion-select-option value="Mujer">Mujer</ion-select-option>
-        <ion-select-option value="Prefiero no decirlo">Prefiero no decirlo</ion-select-option>
-      </ion-select>
-    </ion-item>
-
-    <ion-item lines="none">
-      <ion-label position="stacked">ingresar imagen</ion-label>
-      <input type="file" formControlName="imagen" required>
-    </ion-item>
-
-
-    <ion-item lines="none">
-      <ion-label position="stacked">ingresar el INE</ion-label>
-      <input type="file" formControlName="identificacion_personal" required>
-    </ion-item>
-
-    <ion-item lines="none">
-      <ion-label position="stacked">ingresar el Comprobante de Domicilio</ion-label>
-      <input type="file" formControlName="comprobante_domicilio" required>
-    </ion-item>
-
-    <ion-item lines="none">
-      <ion-label position="stacked">Tipo de Cuenta</ion-label>
-      <ion-select formControlName="tipo_cuenta" required>
-        <ion-select-option value="Premiun">Premiun</ion-select-option>
-        <ion-select-option value="Normal">Normal</ion-select-option>
-      </ion-select>
-    </ion-item>
-
-    <ion-button type="submit" expand="full" [disabled]="formPrestador.invalid">
-      Guardar
-    </ion-button>
-
-  </form>
-</ion-content> -->

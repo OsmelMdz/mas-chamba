@@ -25,14 +25,14 @@ export class CursoService {
 
   getNewProduct: EventEmitter<any> = new EventEmitter();
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(
+    private http: HttpClient, 
+    private authService: AuthService
+    ) { }
 
   //* Obtener Curso */
   getCursos(): Observable<Curso[]> {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.authService.getToken()}`
-    });
-    return this.http.get<Curso[]>(`${this.apiUrl}/cursos`, { headers });
+    return this.http.get<Curso[]>(`${this.apiUrl}/cursos`);
   }
   //* Nuevo Curso */
   newCurso(datos: any): Observable<Curso> {

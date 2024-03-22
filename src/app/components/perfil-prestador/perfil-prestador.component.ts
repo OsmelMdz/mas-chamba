@@ -34,7 +34,7 @@ interface UserProfile {
 
 export class PerfilPrestadorComponent implements OnInit {
   userProfile: UserProfile | undefined;
-  baseUrl = 'http://localhost:8100/storage/app/public/';
+  
   constructor(private modalCtrl: ModalController, private router: Router, private authService: AuthService,) { }
 
   async close() {
@@ -48,7 +48,7 @@ export class PerfilPrestadorComponent implements OnInit {
   perfil() {
     this.authService.getPerfilPrestador().subscribe(
       (response: any) => {
-        console.log('Perfil del prestador:', response);
+        //console.log('Perfil del prestador:', response);
         this.userProfile = response.user_profile;
       },
       (error) => {

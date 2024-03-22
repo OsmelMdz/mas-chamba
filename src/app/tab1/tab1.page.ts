@@ -7,6 +7,7 @@ import { PerfilPrestadorComponent } from '../components/perfil-prestador/perfil-
 import { ContactarComponentComponent } from '../components/contactar-component/contactar-component.component';
 import { PoliticasComponent } from '../components/politicas/politicas.component';
 import { HttpHeaders } from '@angular/common/http';
+import { UserProfile } from '../components/perfil-prestador/perfil-prestador.component';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -23,8 +24,8 @@ export class Tab1Page implements OnInit {
   ]
 
   prestadores: Prestador[] = [];
+  userProfile: UserProfile | undefined;
   isLargeScreen: boolean = true;
-  userProfile: any;
 
   constructor(private modalCtrl: ModalController,
     private prestadorService: PrestadorService,
@@ -34,26 +35,33 @@ export class Tab1Page implements OnInit {
     private alertController: AlertController,) { }
 
   async ngOnInit() {
-    console.log('No robes datos');
     this.getPrestadores();
+    this.perfilA();
+  }
+
+  perfilA() {
+    this.authService.getPerfilPrestador().subscribe(
+      (response: any) => {
+        //console.log('Perfil del prestador:', response);
+        this.userProfile = response.user_profile;
+      },
+      (error) => {
+        console.error('Error al obtener el perfil del prestador:', error);
+      }
+    );
   }
 
   getPrestadores(): void {
-    this.prestadorService.getPrestadoresF()
-      .subscribe(
-        (response: PrestadoresResponse) => {
-          if (response && response['prestadores']) {
-            this.prestadores = response['prestadores'];
-            //console.log('Prestadores:', this.prestadores);
-          } else {
-            console.error('La respuesta del servidor no tiene la estructura esperada:', response);
-          }
-        },
-        (error) => {
-          console.error('Error al obtener los prestadores:', error);
-        }
-      );
-  }
+  this.prestadorService.getPrestadoresF().subscribe(
+    (response: PrestadoresResponse) => {
+      this.prestadores = response.prestadores;
+      //console.log('Prestadores:', this.prestadores);
+    },
+    (error) => {
+      console.error('Error al obtener los prestadores:', error);
+    }
+  );
+}
 
   logout() {
     const token = this.authService.getToken();

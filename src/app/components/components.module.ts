@@ -11,6 +11,7 @@ import { NewServicioComponent } from './new-servicio/new-servicio.component';
 import { NewCursoComponent } from './new-curso/new-curso.component';
 import { NewCertificacionComponent } from './new-certificacion/new-certificacion.component';
 import { NewZonaComponent } from './new-zona/new-zona.component';
+import { UpdateZonaComponent } from './update-zona/update-zona.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { NewZonaComponent } from './new-zona/new-zona.component';
     NewCursoComponent,
     NewCertificacionComponent,
     NewZonaComponent,
+    UpdateZonaComponent,
     PerfilPrestadorComponent,
     ContactarComponentComponent,
     PoliticasComponent
@@ -36,6 +38,7 @@ import { NewZonaComponent } from './new-zona/new-zona.component';
     NewCursoComponent,
     NewCertificacionComponent,
     NewZonaComponent,
+    UpdateZonaComponent,
     PerfilPrestadorComponent,
     ContactarComponentComponent,
     PoliticasComponent

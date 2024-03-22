@@ -10,3 +10,26 @@
     </ion-title>
   </ion-toolbar>
 </ion-header>
+
+<ion-content>
+  <form [formGroup]="certificacionForm" (ngSubmit)="submit()">
+    <ion-item lines="none">
+      <ion-label position="stacked">Ingresar Imagen</ion-label>
+      <input type="file" (change)="onFileChange($event)" required>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-label position="stacked" text-wrap>Nombre del servicio</ion-label>
+      <ion-input type="text" formControlName="nombre" required></ion-input>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-label position="stacked" text-wrap>Descripcion del servicio</ion-label>
+      <ion-input type="text" formControlName="descripcion" required></ion-input>
+    </ion-item>
+
+    <ion-button [disabled]="!certificacionForm.valid" type="submit" expand="full">
+      Guardar
+    </ion-button>
+  </form>
+</ion-content>

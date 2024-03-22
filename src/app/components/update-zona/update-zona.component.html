@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar class="ion-text-center" color="primary">
+    <ion-buttons>
+      <ion-button fill="clear" (click)="close()">
+        <ion-icon slot="icon-only" color="light" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title id="titulo">
+      Actualizar Zona
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label position="stacked">Nombre de Zona Existente</ion-label>
+    <ion-input type="text" [(ngModel)]="nombreZonaExistente"></ion-input>
+  </ion-item>
+
+  <!-- <ion-item>
+    <ion-label position="stacked">Nuevo Nombre de Zona</ion-label>
+    <ion-input [(ngModel)]="nuevoNombreZona" type="text"></ion-input>
+  </ion-item> -->
+
+  <div class="ion-padding">
+    <ion-button expand="block" (click)="updateZona()">Actualizar Zona</ion-button>
+  </div>
+</ion-content>

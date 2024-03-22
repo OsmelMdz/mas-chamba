@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 export { ServiciosResponse, Servicio };
 
 interface Servicio {
@@ -26,13 +26,16 @@ export class ServicioService {
 
   getNewProduct: EventEmitter<any> = new EventEmitter();
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+    ) { }
+    
   //* Obtener Servicio */
   getServicios(): Observable<Servicio[]> {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.authService.getToken()}`
-    });
-    return this.http.get<Servicio[]>(`${this.apiUrl}/servicios`, { headers });
+    return this.http.get<Servicio[]>(`${this.apiUrl}/servicios`).pipe(
+      catchError(this.handleError)
+    );;
   }
   //* Nuevo Servicio */
   newServicio(datos: any): Observable<Servicio> {
@@ -40,5 +43,10 @@ export class ServicioService {
       'Authorization': `Bearer ${this.authService.getToken()}`
     });
     return this.http.post<Servicio>(`${this.apiUrl}/servicios`, datos, { headers });
+  }
+
+  private handleError(error: any): Observable<never> {
+    console.error('Error fetching prestadores:', error);
+    return throwError(error); // Use the throwError function from rxjs to return an Observable error
   }
 }
