@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { catchError } from 'rxjs/operators';
-import { Observable, throwError, Subject } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
 
 export { PrestadoresResponse, Prestador };
@@ -31,12 +31,11 @@ interface PrestadoresResponse {
   providedIn: 'root'
 })
 export class PrestadorService {
-  private postPrestadoresSubject = new Subject<any>();
   apiUrl = 'http://127.0.0.1:8000/api';
   getNewProduct: EventEmitter<any> = new EventEmitter();
 
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     private authService: AuthService) { }
 
     //* Obtener Prestadores con authenticacion*/
@@ -49,14 +48,23 @@ export class PrestadorService {
         catchError(this.handleError)
       );
   }
-  //* Obtener Prestadores sin autorizacion */
+
+  //* Obtener Prestadores sin authenticacion */
   getPrestadoresF(): Observable<PrestadoresResponse> {
     return this.http.get<PrestadoresResponse>(`${this.apiUrl}/prestadoresF`)
       .pipe(
         catchError(this.handleError)
       );
   }
-  
+
+  //* Obtener Prestador por ID */
+  getPrestador(id:number): Observable<Prestador> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+    return this.http.get<Prestador>(`${this.apiUrl}/prestadores/${id}`, { headers });
+  }
+
   //* Nuevo Prestador */
   newPrestador(datos: any): Observable<Prestador> {
     const headers = new HttpHeaders({
@@ -65,11 +73,9 @@ export class PrestadorService {
     return this.http.post<Prestador>(`${this.apiUrl}/prestadores`, datos, { headers });
   }
 
-
-
   private handleError(error: any): Observable<never> {
     console.error('Error fetching prestadores:', error);
-    return throwError(error); // Use the throwError function from rxjs to return an Observable error
+    return throwError(error); //
   }
 
 }

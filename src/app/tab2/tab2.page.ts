@@ -120,11 +120,11 @@ export class Tab2Page implements OnInit {
     this.zonaService.deleteZona(id).subscribe(
       (response) => {
         this.zonas = this.zonas.filter((zona) => zona.id !== id);
-        console.log('Zona eliminada:', response);
+        //console.log('Zona eliminada:', response);
         this.showSuccessToast('Zona eliminada con éxito');
       },
       (error) => {
-        console.error('Error al eliminar la zona:', error);
+        //console.error('Error al eliminar la zona:', error);
         this.showErrorToast('Error al eliminar la zona');
       }
     );
@@ -144,7 +144,7 @@ export class Tab2Page implements OnInit {
 
   logout() {
     localStorage.removeItem(this.authService.tokenKey);
-    console.log('Cerrando sesión');
+    //console.log('Cerrando sesión');
     this.authService.logout();
     this.router.navigateByUrl('menu/tabs/tab1', { replaceUrl: true });
     this.showSuccessToast('¡Has cerrado sesión con éxito!');

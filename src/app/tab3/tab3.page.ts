@@ -64,7 +64,6 @@ export class Tab3Page implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    console.log('No robes datos');
     this.perfilA();
   }
 
@@ -90,7 +89,7 @@ export class Tab3Page implements OnInit {
       });
       this.authService.logout().subscribe(
         () => {
-          console.log('Usuario deslogueado con éxito');
+          //console.log('Usuario deslogueado con éxito');
           localStorage.removeItem(this.authService.tokenKey);
           this.router.navigateByUrl('menu/tabs/tab1', { replaceUrl: true });
           this.showToast();

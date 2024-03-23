@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { UserProfile } from '../perfil-prestador/perfil-prestador.component';
+import { Component, OnInit, Input } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { AlertController, ModalController } from '@ionic/angular';
@@ -11,9 +10,10 @@ import { Prestador, PrestadoresResponse, PrestadorService } from 'src/app/servic
   styleUrls: ['./contactar-component.component.scss'],
 })
 export class ContactarComponentComponent implements OnInit {
-  userProfile: UserProfile | undefined;
-  prestadores: Prestador[] = [];
-  
+  @Input() id!: number;
+  prestador!: Prestador;
+
+
   constructor(
     private modalCtrl: ModalController,
     private router: Router,
@@ -25,43 +25,31 @@ export class ContactarComponentComponent implements OnInit {
     await this.modalCtrl.dismiss();
   }
 
+
   ngOnInit() {
-    this.getPrestadores();
-    this.perfil();
-    if (!this.isAuth()) {
-      // Si el usuario no está autenticado, redirige a la página de políticas de privacidad
-      this.router.navigate(['/politicas-privacidad']);
+    if (this.id) {
+      if (this.isAuth()) {
+        this.getPrestador(this.id);
+      } else {
+        this.router.navigate(['/politicas-privacidad']);
+      }
+    } else {
+      console.error('El ID del prestador no está definido.');
     }
   }
 
-  getPrestadores(): void {
-    this.prestadorService.getPrestadoresF()
-      .subscribe(
-        (response: any) => {
-          if (response && response['prestadores']) {
-            this.prestadores = response['prestadores'];
-            //console.log('Prestadores:', this.prestadores);
-          } else {
-            console.error('La respuesta del servidor no tiene la estructura esperada:', response);
-          }
-        },
-        (error) => {
-          console.error('Error al obtener los prestadores:', error);
-        }
-      );
-  }
-
-  perfil() {
-    this.authService.getPerfilPrestador().subscribe(
-      (response: any) => {
-        console.log('Perfil del prestador:', response);
-        this.userProfile = response.user_profile;
+  //mostrar a los prestadores por id
+  getPrestador(id: number): void {
+    this.prestadorService.getPrestador(id).subscribe(
+      (response) => {
+        this.prestador = response;
       },
       (error) => {
-        console.error('Error al obtener el perfil del prestador:', error);
+        console.error('Error al obtener el prestador:', error);
       }
     );
   }
+
 
   llamar(telefono: string) {
     window.open(`tel:${telefono}`, '_self');

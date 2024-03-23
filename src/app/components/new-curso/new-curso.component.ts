@@ -59,7 +59,7 @@ export class NewCursoComponent  implements OnInit {
       this.router.navigateByUrl('menu/tabs/tab2', { replaceUrl: true });
     } catch (error) {
       const err = error as { status: number };
-      console.error('Error al crear el servicio:', err);
+      //console.error('Error al crear el servicio:', err);
       if (err.status === 401) {
         this.showErrorToast('Usuario no autorizado o contraseña incorrecta');
       } else {

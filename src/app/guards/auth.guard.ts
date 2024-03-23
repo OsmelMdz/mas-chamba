@@ -13,10 +13,10 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
     if (this.authS.isLoggedIn()) {
-      console.log('Bienvenido');
+      console.log('Bienvenido a Más Chamba');
       return true;
     } else {
-      this.router.navigate(['tabs/tab1']);
+      this.router.navigate(['menu/tabs/tab1']);
       console.log('No estas autenticado');
       return false;
     }

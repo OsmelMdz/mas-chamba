@@ -11,7 +11,6 @@ import { NewPrestadorComponent } from '../components/new-prestador/new-prestador
   styleUrls: ['./tab4.page.scss'],
 })
 export class Tab4Page implements OnInit {
-  telefono = '9511175007'
 
   componentsFormulario = [
     {
@@ -39,7 +38,7 @@ export class Tab4Page implements OnInit {
     localStorage.removeItem(this.authService.tokenKey);
     this.authService.logout().subscribe(
       () => {
-        console.log('Usuario deslogueado con éxito');
+        //console.log('Usuario deslogueado con éxito');
         this.router.navigateByUrl('menu/tabs/tab1', { replaceUrl: true });
         this.showToast();
       },

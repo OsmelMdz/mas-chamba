@@ -6,27 +6,6 @@
         <h1 class="ion-padding" style="color: azure; font-size: large; margin-left: 8px;">
           Administración Más Chamba</h1>
       </ion-col>
-
-      <ion-col size="2" *ngIf="isLoggedIn()" style="margin: 10px auto auto auto;">
-        <!--  <ion-button id="popover-button" style="width: 60px; height: 37px; margin: 10% auto 10% auto;">
-          <img src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
-            style="width: 100%; height: auto;" />
-        </ion-button> -->
-        <ion-button id="popover-button" style="width: 60px; height: 37px; margin: 10% auto 10% auto;">
-          <ion-icon slot="icon-only" name="person-circle"></ion-icon>
-        </ion-button>
-        <ion-popover trigger="popover-button" [dismissOnSelect]="true">
-          <ng-template>
-            <ion-content>
-              <ion-list *ngFor="let componentcon of componentsAdmin">
-                <ion-item (click)="perfil(componentcon.calculatorModal)">Ver perfil</ion-item>
-                <ion-item (click)="logout()">Cerrar sesión</ion-item>
-              </ion-list>
-            </ion-content>
-          </ng-template>
-        </ion-popover>
-      </ion-col>
-
     </ion-row>
   </ion-grid>
 </ion-toolbar>

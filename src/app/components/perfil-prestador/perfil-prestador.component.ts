@@ -20,7 +20,6 @@ interface UserProfile {
     comprobante_domicilio: string;
     imagen: string;
     user_id: number;
-    imagenUrl: string;
   };
   email: string;
   password: string;
@@ -34,7 +33,7 @@ interface UserProfile {
 
 export class PerfilPrestadorComponent implements OnInit {
   userProfile: UserProfile | undefined;
-  
+
   constructor(private modalCtrl: ModalController, private router: Router, private authService: AuthService,) { }
 
   async close() {
@@ -48,7 +47,7 @@ export class PerfilPrestadorComponent implements OnInit {
   perfil() {
     this.authService.getPerfilPrestador().subscribe(
       (response: any) => {
-        //console.log('Perfil del prestador:', response);
+        console.log('Perfil del prestador:', response);
         this.userProfile = response.user_profile;
       },
       (error) => {

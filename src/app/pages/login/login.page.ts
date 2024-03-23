@@ -22,8 +22,10 @@ export class LoginPage implements OnInit {
   showPassword: boolean = false;
 
   constructor(
-    private fb: FormBuilder, private toastController: ToastController,
-    private sesion: AuthService, private router: Router) {
+    private fb: FormBuilder,
+    private toastController: ToastController,
+    private sesion: AuthService,
+    private router: Router) {
     this.credentials = this.fb.group({
       email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -53,7 +55,7 @@ export class LoginPage implements OnInit {
     this.sesion.login(this.credentials.value).subscribe(
       (data: any) => {
         //console.log('Data: ', data);
-        console.log('Bienvenido');
+        //console.log('Bienvenido');
         this.credentials.reset();
         this.showSuccessToast('Bienvenido a Mas Chamba');
         this.router.navigateByUrl('menu', { replaceUrl: true });
@@ -62,7 +64,7 @@ export class LoginPage implements OnInit {
         console.log('Error: ', error);
         if (error.status === 401) {
           this.showErrorToast('Usuario no autorizado o contraseña incorrecta');
-          console.log('Usuario no autorizado');
+          //console.log('Usuario no autorizado');
         } else {
           this.showErrorToast('Error de autenticación');
         }
