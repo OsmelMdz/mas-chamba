@@ -8,6 +8,7 @@ export { PrestadoresResponse, Prestador };
 interface Prestador {
   id: number;
   user_id: number;
+  oficio:string;
   nombre: string;
   a_paterno: string;
   a_materno: string;

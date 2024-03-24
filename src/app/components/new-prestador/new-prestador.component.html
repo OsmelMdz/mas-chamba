@@ -13,7 +13,6 @@
 
 <ion-content>
   <form [formGroup]="formPrestador" (ngSubmit)="submit()">
-
     <ion-item lines="none">
       <ion-label position="stacked" text-wrap>Nombre</ion-label>
       <ion-input type="text" formControlName="nombre" required></ion-input>
@@ -57,6 +56,15 @@
         <ion-select-option value="Prefiero no decirlo">Prefiero no decirlo</ion-select-option>
       </ion-select>
     </ion-item>
+
+    <ion-item lines="none">
+      <ion-label position="stacked">Oficio</ion-label>
+      <ion-select formControlName="oficio" required>
+        <ion-select-option value="Electricista">Electricista</ion-select-option>
+        <ion-select-option value="Plomero">Plomero</ion-select-option>
+      </ion-select>
+    </ion-item>
+
     <ion-item lines="none">
       <ion-label position="stacked">Ingresar Imagen</ion-label>
       <input type="file" (change)="onFileChange($event, 'imagen')" formControlName="imagen" required accept="image/jpeg, image/png, image/jpg">

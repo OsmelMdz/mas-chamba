@@ -8,6 +8,7 @@ export { UserProfile }
 interface UserProfile {
   user: {
     id: number;
+    oficio:string;
     nombre: string;
     a_paterno: string;
     a_materno: string;
