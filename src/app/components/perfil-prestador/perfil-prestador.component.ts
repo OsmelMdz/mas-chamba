@@ -21,6 +21,7 @@ interface UserProfile {
     comprobante_domicilio: string;
     imagen: string;
     user_id: number;
+    zona_id: number;
   };
   email: string;
   password: string;
@@ -44,6 +45,8 @@ export class PerfilPrestadorComponent implements OnInit {
   ngOnInit() {
     this.perfil();
   }
+
+  
 
   perfil() {
     this.authService.getPerfilPrestador().subscribe(

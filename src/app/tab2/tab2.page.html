@@ -34,13 +34,17 @@
                 <ion-grid>
                   <ion-row>
                     <ion-col>
-                      <!--(click)="openEditProduct(p)" (click)="deleteProduct(p.id)" -->
-                      <ion-button fill="clear">
+                      <ion-button (click)="openUpdateFormS(servicio.id, servicio.nombre, servicio.descripcion)" fill="clear">
                         <ion-icon slot="icon-only" name="create" color="success"></ion-icon>
                       </ion-button>
                     </ion-col>
                     <ion-col>
-                      <ion-button fill="clear">
+                      <ion-button (click)="updateServicioEstatus(servicio.id, servicio.estatus)" fill="clear">
+                        <ion-icon slot="icon-only" name="archive" color="warning"></ion-icon>
+                      </ion-button>
+                    </ion-col>
+                    <ion-col>
+                      <ion-button (click)="deleteServicio(servicio.id)"  fill="clear">
                         <ion-icon slot="icon-only" name="trash" color="danger"></ion-icon>
                       </ion-button>
                     </ion-col>
@@ -63,6 +67,27 @@
                 </ion-card-title>
                 {{servicio.descripcion}}
               </ion-card-content>
+              <ion-footer *ngIf="isLoggedIn()" lines="full">
+                <ion-grid>
+                  <ion-row>
+                    <ion-col>
+                      <ion-button (click)="openUpdateFormS(servicio.id, servicio.nombre, servicio.descripcion)" fill="clear">
+                        <ion-icon slot="icon-only" name="create" color="success"></ion-icon>
+                      </ion-button>
+                    </ion-col>
+                    <ion-col>
+                      <ion-button (click)="updateServicioEstatus(servicio.id, servicio.estatus)" fill="clear">
+                        <ion-icon slot="icon-only" name="archive" color="warning"></ion-icon>
+                      </ion-button>
+                    </ion-col>
+                    <ion-col>
+                      <ion-button (click)="deleteServicio(servicio.id)"  fill="clear">
+                        <ion-icon slot="icon-only" name="trash" color="danger"></ion-icon>
+                      </ion-button>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-footer>
             </ion-card>
           </ion-col>
         </ng-template>
@@ -149,7 +174,7 @@
                   <ion-row>
                     <ion-col>
                       <!--(click)="openEditProduct(p)" (click)="deleteProduct(p.id)" -->
-                      <ion-button fill="clear">
+                      <ion-button  fill="clear">
                         <ion-icon slot="icon-only" name="create" color="success"></ion-icon>
                       </ion-button>
                     </ion-col>
@@ -205,6 +230,11 @@
                       </ion-button>
                     </ion-col>
                     <ion-col>
+                      <ion-button (click)=" updateZonaEstatus(zona.id, zona.estatus)" fill="clear">
+                        <ion-icon slot="icon-only" name="archive" color="warning"></ion-icon>
+                      </ion-button>
+                    </ion-col>
+                    <ion-col>
                       <ion-button (click)="deleteZona(zona.id)" fill="clear">
                         <ion-icon slot="icon-only" name="trash" color="danger"></ion-icon>
                       </ion-button>
@@ -221,6 +251,27 @@
               <ion-card-content>
                 <ion-card-title>{{zona.nombre}}</ion-card-title>
               </ion-card-content>
+              <ion-footer lines="full">
+                <ion-grid>
+                  <ion-row>
+                    <ion-col>
+                      <ion-button (click)="openUpdateForm(zona.id, zona.nombre)" fill="clear">
+                        <ion-icon slot="icon-only" name="create" color="success"></ion-icon>
+                      </ion-button>
+                    </ion-col>
+                    <ion-col>
+                      <ion-button (click)=" updateZonaEstatus(zona.id, zona.estatus)" fill="clear">
+                        <ion-icon slot="icon-only" name="archive" color="warning"></ion-icon>
+                      </ion-button>
+                    </ion-col>
+                    <ion-col>
+                      <ion-button (click)="deleteZona(zona.id)" fill="clear">
+                        <ion-icon slot="icon-only" name="trash" color="danger"></ion-icon>
+                      </ion-button>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-footer>
             </ion-card>
           </ion-col>
         </ng-template>

@@ -8,6 +8,7 @@ import { ModalController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { UserProfile } from '../components/perfil-prestador/perfil-prestador.component';
 import { UpdateZonaComponent } from '../components/update-zona/update-zona.component';
+import { UpdateServicioComponent } from '../components/update-servicio/update-servicio.component';
 
 @Component({
   selector: 'app-tab2',
@@ -79,6 +80,46 @@ export class Tab2Page implements OnInit {
     );
   }
 
+  //eliminar servicio por id
+  deleteServicio(id: number): void {
+    this.servicioService.deleteServicio(id).subscribe(
+      (response) => {
+        this.servicios = this.servicios.filter((servicio) => servicio.id !== id);
+        //console.log('Servicio eliminado:', response);
+        this.showSuccessToast('Servicio eliminado con éxito');
+      },
+      (error) => {
+        //console.error('Error al eliminar el servicio:', error);
+        this.showErrorToast('Error al eliminar el servicio');
+      }
+    );
+  }
+
+  async openUpdateFormS(servicioId: number, nombreServicio: string, descripcionServicio: string) {
+    const modal = await this.modalController.create({
+      component: UpdateServicioComponent,
+      componentProps: {
+        servicioId: servicioId,
+        nombreServicioExistente: nombreServicio,
+        descripcionServicioExistente: descripcionServicio,
+      }
+    });
+    return await modal.present();
+  }
+
+  updateServicioEstatus(id: number, estatus: string): void {
+    this.servicioService.updateServicioEstatus(id, { estatus }).subscribe(
+      (response) => {
+        //console.log('Servicio actualizado:', response);
+        this.showSuccessToast('Estatus del servicio actualizado con éxito');
+      },
+      (error) => {
+        //console.error('Error al actualizar el estatus del servicio:', error);
+        this.showErrorToast('Error al actualizar el estatus del servicio');
+      }
+    );
+  }
+
   getCursos(): void {
     this.cursoService.getCursos().subscribe(
       (response: Curso[]) => {
@@ -126,6 +167,19 @@ export class Tab2Page implements OnInit {
       (error) => {
         //console.error('Error al eliminar la zona:', error);
         this.showErrorToast('Error al eliminar la zona');
+      }
+    );
+  }
+
+  updateZonaEstatus(id: number, estatus: string): void {
+    this.zonaService.updateZonaEstatus(id, { estatus }).subscribe(
+      (response) => {
+        //console.log('Zona actualizada:', response);
+        this.showSuccessToast('Estatus de la zona actualizado con éxito');
+      },
+      (error) => {
+        //console.error('Error al actualizar el estatus de la zona:', error);
+        this.showErrorToast('Error al actualizar el estatus de la zona');
       }
     );
   }

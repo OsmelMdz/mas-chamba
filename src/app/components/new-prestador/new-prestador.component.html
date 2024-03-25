@@ -88,6 +88,15 @@
       </ion-select>
     </ion-item>
 
+    <ion-item lines="none">
+      <ion-label position="stacked">Zonas</ion-label>
+      <ion-select formControlName="zona_id">
+        <ion-select-option *ngFor="let zona of zonas" [value]="zona.id">
+          {{ zona.nombre }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
     <ion-button type="submit" expand="full" [disabled]="formPrestador.invalid">
       Guardar
     </ion-button>

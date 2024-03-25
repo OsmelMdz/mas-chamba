@@ -8,7 +8,7 @@ export { PrestadoresResponse, Prestador };
 interface Prestador {
   id: number;
   user_id: number;
-  oficio:string;
+  oficio: string;
   nombre: string;
   a_paterno: string;
   a_materno: string;
@@ -20,6 +20,7 @@ interface Prestador {
   comprobante_domicilio: string;
   tipo_cuenta: string;
   estatus: string;
+  zona_id: number;
 }
 
 interface PrestadoresResponse {
@@ -32,6 +33,9 @@ interface PrestadoresResponse {
   providedIn: 'root'
 })
 export class PrestadorService {
+  getPrestadoresA() {
+    throw new Error('Method not implemented.');
+  }
   apiUrl = 'http://127.0.0.1:8000/api';
   getNewProduct: EventEmitter<any> = new EventEmitter();
 
@@ -39,7 +43,7 @@ export class PrestadorService {
     private http: HttpClient,
     private authService: AuthService) { }
 
-    //* Obtener Prestadores con authenticacion*/
+  //* Obtener Prestadores con authenticacion*/
   getPrestadores(): Observable<PrestadoresResponse> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.authService.getToken()}`
@@ -59,7 +63,7 @@ export class PrestadorService {
   }
 
   //* Obtener Prestador por ID */
-  getPrestador(id:number): Observable<Prestador> {
+  getPrestador(id: number): Observable<Prestador> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.authService.getToken()}`
     });
@@ -77,6 +81,30 @@ export class PrestadorService {
   private handleError(error: any): Observable<never> {
     console.error('Error fetching prestadores:', error);
     return throwError(error); //
+  }
+
+
+  async getPrestadorA(prestadorId: number) {
+    const accessToken = localStorage.getItem('accessToken');
+    const headers = {
+      'Authorization': `Bearer ${accessToken}`
+    };
+
+    try {
+      const prestador = await this.http.get(`${this.apiUrl}/prestadoresA/${prestadorId}`, { headers }).toPromise();
+      return prestador;
+    } catch (error) {
+      console.error('Error al obtener el prestador:', error);
+      throw error; 
+    }
+  }
+
+  //**Eliminar Prestador */
+  deletePrestador(id: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+    return this.http.delete(`${this.apiUrl}/prestadores/${id}`, { headers });
   }
 
 }

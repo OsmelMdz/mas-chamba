@@ -12,17 +12,21 @@ import { NewCursoComponent } from './new-curso/new-curso.component';
 import { NewCertificacionComponent } from './new-certificacion/new-certificacion.component';
 import { NewZonaComponent } from './new-zona/new-zona.component';
 import { UpdateZonaComponent } from './update-zona/update-zona.component';
+import { UpdateServicioComponent } from './update-servicio/update-servicio.component';
+import { NewVisitanteComponent } from './new-visitante/new-visitante.component';
 
 @NgModule({
   declarations: [
     NewPrestadorComponent,
     NewServicioComponent,
+    UpdateServicioComponent,
     NewCursoComponent,
     NewCertificacionComponent,
     NewZonaComponent,
     UpdateZonaComponent,
     PerfilPrestadorComponent,
     ContactarComponentComponent,
+    NewVisitanteComponent,
     PoliticasComponent
   ],
   imports: [
@@ -35,12 +39,14 @@ import { UpdateZonaComponent } from './update-zona/update-zona.component';
   exports: [
     NewPrestadorComponent,
     NewServicioComponent,
+    UpdateServicioComponent,
     NewCursoComponent,
     NewCertificacionComponent,
     NewZonaComponent,
     UpdateZonaComponent,
     PerfilPrestadorComponent,
     ContactarComponentComponent,
+    NewVisitanteComponent,
     PoliticasComponent
   ]
 })

@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar class="ion-text-center" color="primary">
+    <ion-buttons>
+      <ion-button fill="clear" (click)="close()">
+        <ion-icon slot="icon-only" color="light" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title id="titulo">
+      Actualizar Servicio
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Formulario para actualizar el servicio -->
+  <form (ngSubmit)="updatedServicio()">
+    <!-- Input para el nombre del servicio -->
+    <ion-item>
+      <ion-label position="stacked">Nombre del Servicio</ion-label>
+      <ion-input type="text" [(ngModel)]="nuevoNombreServicio" name="nombreServicio" required></ion-input>
+    </ion-item>
+
+    <!-- Input para la descripción del servicio -->
+    <ion-item>
+      <ion-label position="stacked">Descripción del Servicio</ion-label>
+      <ion-textarea [(ngModel)]="nuevaDescripcionServicio" name="descripcionServicio"></ion-textarea>
+    </ion-item>
+
+    <!-- Input para el estatus del servicio -->
+    <ion-item>
+      <ion-label position="stacked">Estatus del Servicio</ion-label>
+      <ion-select [(ngModel)]="nuevoEstatusServicio" name="estatusServicio">
+        <ion-select-option value="Activo">Activo</ion-select-option>
+        <ion-select-option value="Inactivo">Inactivo</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- Input para la imagen del servicio -->
+    <ion-item>
+      <ion-label position="stacked">Imagen del Servicio</ion-label>
+      <input type="file" (change)="handleFileInput($event)" accept="image/*">
+    </ion-item>
+
+    <!-- Mostrar la imagen existente -->
+    <img [src]="imgProduct" id="imgProd" alt="Imagen del Servicio">
+
+    <!-- Botón para actualizar el servicio -->
+    <ion-button type="submit" expand="block">Actualizar Servicio</ion-button>
+  </form>
+</ion-content>
+
+

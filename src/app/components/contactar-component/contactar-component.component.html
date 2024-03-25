@@ -22,18 +22,21 @@
       <ion-card-header>
         <img [src]="prestador.imagen" alt="Imagen de perfil"
           onerror="this.onerror=null;this.src='../../assets/thumbnail.svg'">
-        <ion-card-subtitle>Pefil {{ prestador.tipo_cuenta }}</ion-card-subtitle>
         <ion-card-title>{{ prestador.nombre | uppercase }} {{ prestador.a_paterno | uppercase}} {{
           prestador.a_materno | uppercase }}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
           <ion-item>
             <ion-icon name="transgender-outline" slot="start"></ion-icon>
-            <ion-label>{{ prestador.sexo }}</ion-label>
+            <ion-label><strong>Genero: </strong>{{ prestador.sexo }}</ion-label>
           </ion-item>
           <ion-item>
             <ion-icon name="build-outline" slot="start"></ion-icon>
-            <ion-label>{{ prestador.oficio }}</ion-label>
+            <ion-label><strong>Oficio: </strong>{{ prestador.oficio }}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="pin-outline" slot="start"></ion-icon>
+            <ion-label><strong>Zona: </strong>{{ getZonaNameById(prestador.zona_id) }}</ion-label>
           </ion-item>
         <ion-row>
           <ion-col size="6">
@@ -49,6 +52,48 @@
           </ion-col>
         </ion-row>
       </ion-card-content>
+
+      <ion-grid>
+        <ion-text>
+          <h1 class="ion-padding">Servicios</h1>
+        </ion-text>
+        <ion-row class="ion-justify-content-start">
+          <ng-container *ngFor="let servicio of servicios">
+            <ng-container>
+              <ion-col size-lg="4" size-md="6" size-sm="6" size-xs="12">
+                <ion-card class="ion-padding">
+                  <ion-thumbnail>
+                    <img [src]="servicio.imagen" alt="Foto del servicio"
+                      onerror="this.onerror=null;this.src='../../assets/thumbnail.svg'" />
+                  </ion-thumbnail>
+                  <ion-card-content>
+                    <ion-card-title>
+                      {{servicio.nombre}}
+                    </ion-card-title>
+                    {{servicio.descripcion}}
+                  </ion-card-content>
+                </ion-card>
+              </ion-col>
+            </ng-container>
+            <ng-template #smallScreen>
+              <ion-col size="12">
+                <ion-card class="ion-padding">
+                  <ion-thumbnail>
+                    <img [src]="servicio.imagen" alt="Foto del servicio"
+                      onerror="this.onerror=null;this.src='../../assets/thumbnail.svg'" />
+                  </ion-thumbnail>
+                  <ion-card-content>
+                    <ion-card-title>
+                      {{servicio.nombre}}
+                    </ion-card-title>
+                    {{servicio.descripcion}}
+                  </ion-card-content>
+                </ion-card>
+              </ion-col>
+            </ng-template>
+          </ng-container>
+        </ion-row>
+      </ion-grid>
     </ion-card>
   </div>
 </ion-content>
@@ -56,7 +101,9 @@
 <ng-template #politicasPrivacidad>
   <div class="politicas-privacidad-message">
     <img class="logo-img" src="../../assets/img/Logo.png">
-    <p>Para acceder a esta página, por favor acepta nuestras políticas de privacidad.</p>
+    <p>Para acceder a esta página, por favor acepta nuestras políticas de privacidad y rellene el formulario.</p>
+    <button ion-button (click)="aceptarPoliticas()">Aceptar</button>
+    &nbsp;&nbsp;
     <button ion-button (click)="close()">Salir</button>
   </div>
 </ng-template>

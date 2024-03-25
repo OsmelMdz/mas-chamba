@@ -3,6 +3,8 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
 
+export { Visitante, VisitanteResponse };
+
 interface Visitante {
   id: number;
   nombre: string;
@@ -22,6 +24,7 @@ interface VisitanteResponse {
 export class VisitanteService {
   apiUrl = 'http://127.0.0.1:8000/api';
   getNewProduct: EventEmitter<any> = new EventEmitter();
+  tokenKey = 'auth_token';
 
   constructor(
     private http: HttpClient,
@@ -65,5 +68,12 @@ export class VisitanteService {
     });
     return this.http.delete(`${this.apiUrl}/visitantes/${id}`, { headers });
   }
+
+
+  obtenerEstadoPoliticas(): boolean {
+    const accessToken = localStorage.getItem('auth_token');
+    return accessToken !== null;
+  }
+
 
 }

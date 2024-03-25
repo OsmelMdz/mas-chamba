@@ -15,7 +15,7 @@
   <form [formGroup]="cursoForm" (ngSubmit)="submit()">
     <ion-item lines="none">
       <ion-label position="stacked">Ingresar Imagen</ion-label>
-      <input type="file" (change)="onFileChange($event)" required>
+      <input type="file" (change)="onFileChange($event)" required accept="image/jpeg, image/png, image/jpg">
     </ion-item>
 
     <ion-item lines="none">

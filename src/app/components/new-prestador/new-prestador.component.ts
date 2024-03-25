@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController, ToastController } from '@ionic/angular';
 import { PrestadorService } from 'src/app/services/prestador.service';
-
+import { Zona } from 'src/app/services/zona.service';
+import { ZonaService } from '../../services/zona.service';
 @Component({
   selector: 'app-new-prestador',
   templateUrl: './new-prestador.component.html',
@@ -10,16 +11,30 @@ import { PrestadorService } from 'src/app/services/prestador.service';
 })
 export class NewPrestadorComponent implements OnInit {
   formPrestador!: FormGroup;
+  zonas: Zona[] = [];
 
   constructor(
     private fb: FormBuilder,
     private modalCtrl: ModalController,
     private prestadorService: PrestadorService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private zonaService: ZonaService
   ) { }
+
+  getZona(): void {
+    this.zonaService.getZonas().subscribe(
+      (response: Zona[]) => {
+        this.zonas = response;
+      },
+      (error) => {
+        console.error('Error al obtener las zonas:', error);
+      }
+    );
+  }
 
   ngOnInit() {
     this.initializeForm();
+    this.getZona();
   }
 
   onFileChange(event: Event, field: string): void {
@@ -48,7 +63,8 @@ export class NewPrestadorComponent implements OnInit {
       tipo_cuenta: [''],
       estatus: ['Activo'],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      zona_id: [0]
     });
   }
 
@@ -60,7 +76,7 @@ export class NewPrestadorComponent implements OnInit {
     if (this.formPrestador.valid) {
       const formData = new FormData();
       Object.entries(this.formPrestador.value).forEach(([key, value]) => {
-        if (value) {
+        if (value !== null && value !== undefined) { // Verifica que el valor no sea nulo ni indefinido
           if (key === 'imagen' || key === 'identificacion_personal' || key === 'comprobante_domicilio') {
             if (value instanceof File) {
               formData.append(key, value, value.name);
@@ -68,10 +84,11 @@ export class NewPrestadorComponent implements OnInit {
               console.warn(`El valor para '${key}' no es un archivo.`);
             }
           } else {
-            if (typeof value === 'string') {
-              formData.append(key, value);
+            // Verifica si el valor es una cadena, un número o un booleano antes de agregarlo al FormData
+            if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+              formData.append(key, value.toString());
             } else {
-              console.warn(`El valor para '${key}' no es una cadena.`);
+              console.warn(`El valor para '${key}' no es una cadena, un número ni un booleano.`);
             }
           }
         }
@@ -92,6 +109,8 @@ export class NewPrestadorComponent implements OnInit {
       console.log('Formulario inválido');
     }
   }
+
+
 
   submit() {
     this.postPrestadores();

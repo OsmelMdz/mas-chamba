@@ -9,6 +9,7 @@ interface Servicio {
   nombre: string;
   descripcion: string;
   imagen: string;
+  estatus: string;
 }
 
 interface ServiciosResponse {
@@ -30,7 +31,7 @@ export class ServicioService {
     private http: HttpClient,
     private authService: AuthService
     ) { }
-    
+
   //* Obtener Servicio */
   getServicios(): Observable<Servicio[]> {
     return this.http.get<Servicio[]>(`${this.apiUrl}/servicios`).pipe(
@@ -43,6 +44,31 @@ export class ServicioService {
       'Authorization': `Bearer ${this.authService.getToken()}`
     });
     return this.http.post<Servicio>(`${this.apiUrl}/servicios`, datos, { headers });
+  }
+
+  //* Actualizar Servicio */
+  updateServicio(id: number, datos: any): Observable<Servicio> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+    return this.http.put<Servicio>(`${this.apiUrl}/servicios/${id}`, datos, { headers });
+  }
+
+  //* Actualizar Servicio pero haciendo el cambio de estatus */
+  updateServicioEstatus(id: number, datos: any): Observable<Servicio> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+    return this.http.patch<Servicio>(`${this.apiUrl}/servicios/${id}`, datos, { headers });
+  }
+
+
+  //* Eliminar Servicio */
+  deleteServicio(id: number): Observable<Servicio> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+    return this.http.delete<Servicio>(`${this.apiUrl}/servicios/${id}`, { headers });
   }
 
   private handleError(error: any): Observable<never> {

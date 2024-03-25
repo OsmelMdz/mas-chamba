@@ -1,11 +1,11 @@
-.new-background-color{
-  --background: #0C4592;
+.new-background-color {
+  --background: #0c4592;
 }
 
 .profile_photo {
   border-radius: 15px;
-  width: 60px !important;
-  height: auto !important;
+  width: 60px;
+  height: auto;
   margin: 3% 0;
   margin-left: 5%;
 }
@@ -17,20 +17,19 @@ ion-thumbnail {
   margin: auto;
   width: var(--size);
   height: var(--size);
-  overflow: hidden; 
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 
-ion-thumbnail img {
-  width: 100%; 
-  height: 100%;
-  object-fit: cover; 
-}
-
-ion-button{
+ion-button {
   border-radius: 50%;
   display: block;
 }
-
 
 ion-card {
   ion-card-header {
@@ -84,4 +83,57 @@ ion-card {
   margin-left: 25%;
 }
 
+ion-searchbar.mode-ios.custom-searchbar {
+  margin: 25px 0px 15px auto;
+  border-radius: 10px;
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  box-shadow: none;
+}
 
+ion-searchbar.mode-md.custom-searchbar {
+  margin: 25px 0px 15px auto;
+  border-radius: 5px;
+  background-color: #ffffff;
+  border: 1px solid #d1d1d1;
+  box-shadow: none;
+}
+
+.popover-button {
+  margin: 0;
+  padding: 0;
+  width: 60px;
+  height: 37px;
+  margin: 25px auto 15px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
+}
+
+ion-popover {
+  max-width: auto;
+  min-width: auto;
+  border-radius: 0 0 0 10px;
+  background-color: #0c4e9e81;
+  box-shadow: 4px 0px 16px;
+}
+
+ion-popover ion-list {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  ion-item {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+ion-popover ion-item {
+  padding: 10px;
+  font-size: 14px;
+}

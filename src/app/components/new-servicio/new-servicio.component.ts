@@ -60,7 +60,7 @@ export class NewServicioComponent implements OnInit {
       this.servicioForm.reset();
       await this.modalCtrl.dismiss();
       this.showSuccessToast('Servicio creado con exito');
-      this.router.navigateByUrl('menu/tabs/tab2', { replaceUrl: true });
+      this.router.navigateByUrl('menu', { replaceUrl: true });
     } catch (error) {
       const err = error as { status: number };
       console.error('Error al crear el servicio:', err);

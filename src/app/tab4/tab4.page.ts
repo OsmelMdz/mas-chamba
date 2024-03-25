@@ -4,6 +4,7 @@ import { ModalController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { PoliticasComponent } from '../components/politicas/politicas.component';
 import { NewPrestadorComponent } from '../components/new-prestador/new-prestador.component';
+import { UserProfile } from '../components/perfil-prestador/perfil-prestador.component';
 
 @Component({
   selector: 'app-tab4',
@@ -11,7 +12,7 @@ import { NewPrestadorComponent } from '../components/new-prestador/new-prestador
   styleUrls: ['./tab4.page.scss'],
 })
 export class Tab4Page implements OnInit {
-
+  userProfile: UserProfile | undefined;
   componentsFormulario = [
     {
       title: 'Formulario',
@@ -31,7 +32,7 @@ export class Tab4Page implements OnInit {
   }
 
   isLoggedIn(): boolean {
-    return this.authService.isLoggedIn();
+    return this.authService.isLoggedIn() && (this.userProfile?.role_id === 1 || this.userProfile?.role_id === 2 || this.userProfile?.role_id === 3 || this.userProfile?.role_id === null);
   }
 
   logout() {

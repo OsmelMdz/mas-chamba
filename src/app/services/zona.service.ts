@@ -6,6 +6,7 @@ export{ZonasResponse, Zona}
 interface Zona {
   id: number;
   nombre: string;
+  estatus: string;
 }
 
 interface ZonasResponse {
@@ -47,6 +48,14 @@ export class ZonaService {
       'Authorization': `Bearer ${this.authService.getToken()}`
     });
     return this.http.put<Zona>(`${this.apiUrl}/zonas/${id}`, datos, { headers });
+  }
+
+  //* Actualizar Zona pero haciendo el cambio de estatus */
+  updateZonaEstatus(id: number, datos: any): Observable<Zona> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+    return this.http.patch<Zona>(`${this.apiUrl}/zonas/${id}`, datos, { headers });
   }
 
   //** Eliminar Zona */
