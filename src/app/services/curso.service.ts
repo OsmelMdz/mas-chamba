@@ -9,6 +9,8 @@ interface Curso {
   nombre: string;
   descripcion: string;
   imagen: string;
+  estatus: string;
+  tipo:string;
 }
 
 interface CursosResponse {
@@ -26,7 +28,7 @@ export class CursoService {
   getNewProduct: EventEmitter<any> = new EventEmitter();
 
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     private authService: AuthService
     ) { }
 

@@ -106,7 +106,7 @@ export class Tab1Page implements OnInit {
   isLoggedIn(): boolean {
     return this.authService.isLoggedIn() && (this.userProfile?.role_id === 1 || this.userProfile?.role_id === 2 || this.userProfile?.role_id === 3);
   }
-
+  
   isLoggedAd(): boolean {
     return this.authService.isLoggedIn() && (this.userProfile?.role_id === 1 || this.userProfile?.role_id === 2);
   }

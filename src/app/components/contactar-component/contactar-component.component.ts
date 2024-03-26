@@ -23,11 +23,12 @@ export class ContactarComponentComponent implements OnInit {
   certificaciones: Certificacion[] = [];
   zonas: Zona[] = [];
   serviciosValidados: Servicio[] = [];
+  cursosValidados: Curso[] = [];
+  certificacionesValidados: Certificacion[] = [];
 
   constructor(
     private modalCtrl: ModalController,
     private router: Router,
-    private authService: AuthService,
     private servicioService: ServicioService,
     private cursoService: CursoService,
     private certificacionService: CertificacionService,
@@ -54,8 +55,6 @@ export class ContactarComponentComponent implements OnInit {
     if (this.id) {
       if (this.isAuth()) {
         this.getPrestador(this.id);
-        this.getCursos();
-        this.getCertificacion();
         this.getZona();
       } else {
         this.router.navigate(['/politicas-privacidad']);
@@ -67,16 +66,16 @@ export class ContactarComponentComponent implements OnInit {
 
   getZonaNameById(zonaId: number): string {
     const zona = this.zonas.find(z => z.id === zonaId);
-    return zona ? zona.nombre : 'Zona no encontrada'; // Manejo de caso en que la zona no se encuentra
+    return zona ? zona.nombre : 'Zona no encontrada';
   }
 
-  //mostrar a los prestadores por id
   getPrestador(id: number): void {
     this.prestadorService.getPrestador(id).subscribe(
       (response) => {
         this.prestador = response;
-        console.log('Prestador:', this.prestador);
-        this.getServicios(); // Llamar a getServicios() después de obtener el prestador
+        this.getServicios();
+        this.getCursos();
+        this.getCertificacion();
       },
       (error) => {
         console.error('Error al obtener el prestador:', error);
@@ -89,20 +88,15 @@ export class ContactarComponentComponent implements OnInit {
     this.servicioService.getServicios().subscribe(
       (response: Servicio[]) => {
         if (this.prestador && this.prestador.oficio && response) {
-          // Verificar el tipo de oficio del prestador y filtrar los servicios en consecuencia
           if (this.prestador.oficio === 'Electricista') {
-            console.log('Electricista');
             this.serviciosValidados = response.filter(servicio => servicio.tipo === 'Electricidad');
           } else if (this.prestador.oficio === 'Plomero' || this.prestador.oficio === 'Plomera') {
-            console.log('Plomero');
             this.serviciosValidados = response.filter(servicio => servicio.tipo === 'Plomeria');
           } else {
-            // Si el tipo de oficio no coincide con ninguna opción conocida, mostrar un mensaje de advertencia
             console.warn('Tipo de oficio no reconocido:', this.prestador.oficio);
             this.serviciosValidados = [];
           }
         } else {
-          // Si el prestador o los servicios no están definidos, devolver un arreglo vacío
           console.warn('El prestador o los servicios no están definidos.');
           this.serviciosValidados = [];
         }
@@ -117,10 +111,22 @@ export class ContactarComponentComponent implements OnInit {
 
 
   getCursos(): void {
+    console.log('Oficio del prestador:', this.prestador ? this.prestador.oficio : 'No hay prestador definido');
     this.cursoService.getCursos().subscribe(
       (response: Curso[]) => {
-        this.cursos = response;
-        //console.log('Cursos:', this.cursos);
+        if (this.prestador && this.prestador.oficio && response) {
+          if (this.prestador.oficio === 'Electricista') {
+            this.cursosValidados = response.filter(curso => curso.tipo === 'Electricidad');
+          } else if (this.prestador.oficio === 'Plomero' || this.prestador.oficio === 'Plomera') {
+            this.cursosValidados = response.filter(curso => curso.tipo === 'Plomeria');
+          } else {
+            console.warn('Tipo de oficio no reconocido:', this.prestador.oficio);
+            this.cursosValidados = [];
+          }
+        } else {
+          console.warn('El prestador o los cursos no están definidos.');
+          this.cursosValidados = [];
+        }
       },
       (error) => {
         console.error('Error al obtener los cursos:', error);
@@ -131,8 +137,17 @@ export class ContactarComponentComponent implements OnInit {
   getCertificacion(): void {
     this.certificacionService.getCertificaciones().subscribe(
       (response: Certificacion[]) => {
-        this.certificaciones = response;
-        //console.log('Certificaciones:', this.certificaciones);
+        if (this.prestador && this.prestador.oficio && response) {
+          if (this.prestador.oficio === 'Electricista') {
+            this.certificacionesValidados = response.filter(curso => curso.tipo === 'Electricidad');
+          } else if (this.prestador.oficio === 'Plomero' || this.prestador.oficio === 'Plomera') {
+            this.certificacionesValidados = response.filter(curso => curso.tipo === 'Plomeria');
+          } else {
+            this.certificacionesValidados = [];
+          }
+        } else {
+          this.certificacionesValidados = [];
+        }
       },
       (error) => {
         console.error('Error al obtener las certificaciones:', error);
@@ -144,7 +159,6 @@ export class ContactarComponentComponent implements OnInit {
     this.zonaService.getZonas().subscribe(
       (response: Zona[]) => {
         this.zonas = response;
-        //console.log('Zonas:', this.zonas);
       },
       (error) => {
         console.error('Error al obtener las zonas:', error);

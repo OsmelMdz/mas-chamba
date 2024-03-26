@@ -9,6 +9,8 @@ interface Certificacion {
   nombre: string;
   descripcion: string;
   imagen: string;
+  estatus: string;
+  tipo:string;
 }
 
 interface CertificacionesResponse {
@@ -33,7 +35,7 @@ export class CertificacionService {
   getCertificaciones(): Observable<Certificacion[]> {
     return this.http.get<Certificacion[]>(`${this.apiUrl}/certificaciones`);
   }
-  
+
   //* Nuevo Certificado */
   newCertificacion(datos: any): Observable<Certificacion> {
     const headers = new HttpHeaders({

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ModalController, ToastController } from '@ionic/angular';
+import { ModalController, NavController, ToastController } from '@ionic/angular';
 import { VisitanteService } from '../../services/visitante.service';
 
 @Component({
@@ -15,9 +15,9 @@ export class NewVisitanteComponent  implements OnInit {
   constructor(
     private modalCtrl: ModalController,
     private formBuilder: FormBuilder,
-    private router: Router,
     private toastController: ToastController,
-    private visitanteService: VisitanteService
+    private visitanteService: VisitanteService,
+    private navCtrl: NavController,
   ) { }
 
   ngOnInit() {
@@ -41,15 +41,15 @@ export class NewVisitanteComponent  implements OnInit {
   async submit() {
     try {
       const newVisitante = await this.visitanteService.newVisitante(this.visitanteFrom.value).toPromise();
-      // Guardar el token en el localStorage
       localStorage.setItem('auth_token', newVisitante.token);
       this.visitanteService.getNewProduct.emit(newVisitante);
       this.visitanteFrom.reset();
-      this.router.navigate(['/tabs/tab1']);
-      this.showSuccessToast('Visitante creado correctamente.');
+      await this.modalCtrl.dismiss();
+      this.navCtrl.navigateRoot('menu');
+      this.showSuccessToast('Políticas aceptadas correctamente.');
     } catch (error) {
-      console.error('Error al crear el visitante:', error);
-      this.showErrorToast('Error al crear el visitante.');
+      console.error('Error al aceptar las políticas:', error);
+      this.showErrorToast('Error al aceptar las políticas, intenta de nuevo');
     }
   }
 
