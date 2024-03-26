@@ -58,8 +58,8 @@ export class NewPrestadorComponent implements OnInit {
       telefono: [''],
       sexo: [''],
       imagen: [null, Validators.required],
-      identificacion_personal: [null, Validators.required],
-      comprobante_domicilio: [null, Validators.required],
+      identificacion_personal: [null],
+      comprobante_domicilio: [null],
       tipo_cuenta: [''],
       estatus: ['Activo'],
       email: ['', [Validators.required, Validators.email]],
@@ -76,7 +76,7 @@ export class NewPrestadorComponent implements OnInit {
     if (this.formPrestador.valid) {
       const formData = new FormData();
       Object.entries(this.formPrestador.value).forEach(([key, value]) => {
-        if (value !== null && value !== undefined) { // Verifica que el valor no sea nulo ni indefinido
+        if (value !== null && value !== undefined) {
           if (key === 'imagen' || key === 'identificacion_personal' || key === 'comprobante_domicilio') {
             if (value instanceof File) {
               formData.append(key, value, value.name);
@@ -84,7 +84,6 @@ export class NewPrestadorComponent implements OnInit {
               console.warn(`El valor para '${key}' no es un archivo.`);
             }
           } else {
-            // Verifica si el valor es una cadena, un número o un booleano antes de agregarlo al FormData
             if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
               formData.append(key, value.toString());
             } else {

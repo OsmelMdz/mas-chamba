@@ -34,7 +34,8 @@ export class NewServicioComponent implements OnInit {
       imagen: [''],
       nombre: ['', Validators.required],
       descripcion: ['', Validators.required],
-      estatus: ['Habilitado']
+      estatus: ['Habilitado'],
+      tipo:['',Validators.required]
     });
   }
 
@@ -46,20 +47,32 @@ export class NewServicioComponent implements OnInit {
   }
 
   async submit() {
+    if (this.servicioForm.invalid) {
+      this.showErrorToast('Por favor completa todos los campos requeridos.');
+      return;
+    }
+
     const formData = new FormData();
     formData.append('nombre', this.servicioForm.get('nombre')?.value);
     formData.append('descripcion', this.servicioForm.get('descripcion')?.value);
     formData.append('estatus', this.servicioForm.get('estatus')?.value);
+    formData.append('tipo', this.servicioForm.get('tipo')?.value);
     if (this.selectedFile) {
       formData.append('imagen', this.selectedFile);
     }
 
     try {
+      const tipoValue = this.servicioForm.get('tipo')?.value;
+      if (tipoValue !== 'Plomeria' && tipoValue !== 'Electricidad') {
+        this.showErrorToast('Por favor selecciona un tipo válido: "Plomeria" o "Electricidad".');
+        return;
+      }
+
       const newServicio = await this.servicioService.newServicio(formData).toPromise();
       this.servicioService.getNewProduct.emit(newServicio);
       this.servicioForm.reset();
       await this.modalCtrl.dismiss();
-      this.showSuccessToast('Servicio creado con exito');
+      this.showSuccessToast('Servicio creado con éxito');
       this.router.navigateByUrl('menu', { replaceUrl: true });
     } catch (error) {
       const err = error as { status: number };

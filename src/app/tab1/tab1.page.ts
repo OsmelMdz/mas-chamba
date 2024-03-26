@@ -81,8 +81,6 @@ export class Tab1Page implements OnInit {
     }
   }
 
-
-
   getZonaNameById(zonaId: number): string {
     const zona = this.zonas.find(z => z.id === zonaId);
     return zona ? zona.nombre : 'Zona no encontrada';
@@ -93,7 +91,6 @@ export class Tab1Page implements OnInit {
     this.zonaService.getZonas().subscribe(
       (response: Zona[]) => {
         this.zonas = response;
-        //console.log('Zonas:', this.zonas);
       },
       (error) => {
         console.error('Error al obtener las zonas:', error);
@@ -107,6 +104,10 @@ export class Tab1Page implements OnInit {
 
   //*Si esta logueado*/
   isLoggedIn(): boolean {
+    return this.authService.isLoggedIn() && (this.userProfile?.role_id === 1 || this.userProfile?.role_id === 2 || this.userProfile?.role_id === 3);
+  }
+
+  isLoggedAd(): boolean {
     return this.authService.isLoggedIn() && (this.userProfile?.role_id === 1 || this.userProfile?.role_id === 2);
   }
 
@@ -114,7 +115,6 @@ export class Tab1Page implements OnInit {
   perfilA() {
     this.authService.getPerfilPrestador().subscribe(
       (response: any) => {
-        //console.log('Perfil del prestador:', response);
         this.userProfile = response.user_profile;
       },
       (error) => {
@@ -147,11 +147,9 @@ export class Tab1Page implements OnInit {
     this.prestadorService.getPrestadoresF().subscribe(
       (response: PrestadoresResponse) => {
         this.prestadores = response.prestadores;
-        //console.log('Prestadores:', this.prestadores);
       },
       (error) => {
-        return error;
-        //console.error('Error al obtener los prestadores:', error);
+        console.error('Error al obtener los prestadores:', error);
       }
     );
   }
@@ -161,11 +159,9 @@ export class Tab1Page implements OnInit {
     this.prestadorService.getPrestador(id).subscribe(
       (response) => {
         this.prestador = response;
-        //console.log(this.prestador);
       },
       (error) => {
-        return error;
-        //console.error('Error al obtener el prestador:', error);
+        console.error('Error al obtener el prestador:', error);
       }
     );
   }
@@ -174,7 +170,7 @@ export class Tab1Page implements OnInit {
   deletePrestador(id: number): void {
     this.prestadorService.deletePrestador(id).subscribe(
       () => {
-        this.getPrestadores(); // Aquí podrías recargar la lista de prestadores
+        this.getPrestadores();
         this.showSuccessToast('Prestador eliminado con éxito');
       },
       (error) => {
@@ -239,50 +235,18 @@ export class Tab1Page implements OnInit {
 
 
   //*Alerta de aceptar politicas*/
-  /* async contactar(componenteModal: string, idPrestador: number) {
-    const alert = await this.alertController.create({
-      header: 'Acepta las políticas de privacidad',
-      message: 'Al hacer clic en "Aceptar", confirmas que has leído y aceptas nuestras políticas de privacidad.',
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          cssClass: 'secondary'
-        },
-        {
-          text: 'Ver políticas',
-          handler: () => {
-            this.verPoliticas();
-          }
-        },
-        {
-          text: 'Aceptar',
-          handler: () => {
-            this.abrirModal(componenteModal, idPrestador);
-          }
-        }
-      ]
-    });
-    await alert.present();
-  } */
 
   async contactar(componenteModal: string, idPrestador: number) {
     const accessToken = localStorage.getItem('auth_token');
-
     if (accessToken) {
-      // Si ya hay un token en el localStorage, verificar si las políticas ya han sido aceptadas
       const politicasAceptadas = await this.visitanteService.obtenerEstadoPoliticas();
-
       if (politicasAceptadas) {
-        // Si las políticas ya han sido aceptadas, abrir directamente el modal
         this.abrirModal(componenteModal, idPrestador);
         console.log('Las políticas han sido aceptadas');
       } else {
-        // Si las políticas no han sido aceptadas, mostrar el mensaje para aceptarlas
         await this.mostrarAlertaPoliticas(componenteModal, idPrestador);
       }
     } else {
-      // Si no hay un token en el localStorage, mostrar el alerta de aceptar políticas
       await this.mostrarAlertaPoliticas(componenteModal, idPrestador);
     }
   }
@@ -313,10 +277,6 @@ export class Tab1Page implements OnInit {
     });
     await alert.present();
   }
-
-
-
-
 
   //*Te redirecciona para ver las Politicas */
   async verPoliticas() {
@@ -352,8 +312,6 @@ export class Tab1Page implements OnInit {
   //** Buscar */
   searchPrestador(event: any) {
     const searchTerm = event.target.value.toLowerCase();
-
-    //prestador.nombre.toLowerCase().includes(searchTerm) ||
     if (searchTerm !== '') {
       this.filteredPrestadores = this.prestadores.filter(prestador =>
         prestador.oficio.toLowerCase().includes(searchTerm) ||
@@ -362,19 +320,16 @@ export class Tab1Page implements OnInit {
     } else {
       this.filteredPrestadores = this.prestadores.slice();
     }
-
     this.searchPerformed = true;
-
     if (this.filteredPrestadores.length > 0) {
-      this.showSuccess('Se encontraron resultados.');
+      this.showSuccess('Estos son los prestadores de servicio que se encuentra por la zona');
     } else {
       this.showError('No se encontraron perfiles que coincidan con la búsqueda.');
     }
-
     if (searchTerm === '') {
       this.filteredPrestadores = this.prestadores.slice();
     }
-}
+  }
 
   //*Alerta Success*/
   async showSuccess(message: string) {

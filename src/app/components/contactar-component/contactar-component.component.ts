@@ -17,10 +17,12 @@ import { NewVisitanteComponent } from '../new-visitante/new-visitante.component'
 export class ContactarComponentComponent implements OnInit {
   @Input() id!: number;
   prestador!: Prestador;
+  prestadores: Prestador[] = [];
   servicios: Servicio[] = [];
   cursos: Curso[] = [];
   certificaciones: Certificacion[] = [];
   zonas: Zona[] = [];
+  serviciosValidados: Servicio[] = [];
 
   constructor(
     private modalCtrl: ModalController,
@@ -32,13 +34,14 @@ export class ContactarComponentComponent implements OnInit {
     private zonaService: ZonaService,
     private prestadorService: PrestadorService,
     public alertController: AlertController,
-    private toastController: ToastController) { }
+    private toastController: ToastController
+    ) { }
 
   async close() {
     await this.modalCtrl.dismiss();
   }
 
-  async aceptarPoliticas(){
+  async aceptarPoliticas() {
     const modal = await this.modalCtrl.create({
       component: NewVisitanteComponent,
       mode: 'ios'
@@ -51,7 +54,6 @@ export class ContactarComponentComponent implements OnInit {
     if (this.id) {
       if (this.isAuth()) {
         this.getPrestador(this.id);
-        this.getServicios();
         this.getCursos();
         this.getCertificacion();
         this.getZona();
@@ -73,6 +75,8 @@ export class ContactarComponentComponent implements OnInit {
     this.prestadorService.getPrestador(id).subscribe(
       (response) => {
         this.prestador = response;
+        console.log('Prestador:', this.prestador);
+        this.getServicios(); // Llamar a getServicios() después de obtener el prestador
       },
       (error) => {
         console.error('Error al obtener el prestador:', error);
@@ -81,16 +85,36 @@ export class ContactarComponentComponent implements OnInit {
   }
 
   getServicios(): void {
+    console.log('Oficio del prestador:', this.prestador ? this.prestador.oficio : 'No hay prestador definido');
     this.servicioService.getServicios().subscribe(
-      (servicios: Servicio[]) => {
-        this.servicios = servicios;
+      (response: Servicio[]) => {
+        if (this.prestador && this.prestador.oficio && response) {
+          // Verificar el tipo de oficio del prestador y filtrar los servicios en consecuencia
+          if (this.prestador.oficio === 'Electricista') {
+            console.log('Electricista');
+            this.serviciosValidados = response.filter(servicio => servicio.tipo === 'Electricidad');
+          } else if (this.prestador.oficio === 'Plomero' || this.prestador.oficio === 'Plomera') {
+            console.log('Plomero');
+            this.serviciosValidados = response.filter(servicio => servicio.tipo === 'Plomeria');
+          } else {
+            // Si el tipo de oficio no coincide con ninguna opción conocida, mostrar un mensaje de advertencia
+            console.warn('Tipo de oficio no reconocido:', this.prestador.oficio);
+            this.serviciosValidados = [];
+          }
+        } else {
+          // Si el prestador o los servicios no están definidos, devolver un arreglo vacío
+          console.warn('El prestador o los servicios no están definidos.');
+          this.serviciosValidados = [];
+        }
       },
       (error) => {
         console.error('Error al obtener los servicios:', error);
-        this.showErrorToast('Error al cargar los servicios. Por favor, inténtalo de nuevo más tarde.');
       }
     );
   }
+
+
+
 
   getCursos(): void {
     this.cursoService.getCursos().subscribe(

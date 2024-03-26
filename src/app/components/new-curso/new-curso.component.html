@@ -28,6 +28,14 @@
       <ion-input type="text" formControlName="descripcion" required></ion-input>
     </ion-item>
 
+    <ion-item lines="none">
+      <ion-label position="stacked" text-wrap>Tipo de curso</ion-label>
+      <ion-select formControlName="tipo" required>
+        <ion-select-option value="Plomeria">Plomeria</ion-select-option>
+        <ion-select-option value="Electricidad">Electricidad</ion-select-option>
+      </ion-select>
+    </ion-item>
+
     <ion-button [disabled]="!cursoForm.valid" type="submit" expand="full">
       Guardar
     </ion-button>

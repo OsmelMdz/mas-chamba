@@ -10,6 +10,7 @@ interface Servicio {
   descripcion: string;
   imagen: string;
   estatus: string;
+  tipo:string;
 }
 
 interface ServiciosResponse {

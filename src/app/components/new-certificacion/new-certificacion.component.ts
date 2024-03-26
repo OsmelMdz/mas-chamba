@@ -3,6 +3,7 @@ import { ModalController, ToastController } from '@ionic/angular';
 import { CertificacionService } from '../../services/certificacion.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Certificacion } from 'src/app/services/certificacion.service';
 
 @Component({
   selector: 'app-new-certificacion',
@@ -36,7 +37,8 @@ export class NewCertificacionComponent implements OnInit {
       imagen: [''],
       nombre: ['', Validators.required],
       descripcion: ['', Validators.required],
-      estatus: ['Habilitado']
+      estatus: ['Habilitado'],
+      tipo:['',Validators.required]
     });
   }
 
@@ -52,11 +54,18 @@ export class NewCertificacionComponent implements OnInit {
     formData.append('nombre', this.certificacionForm.get('nombre')?.value);
     formData.append('descripcion', this.certificacionForm.get('descripcion')?.value);
     formData.append('estatus', this.certificacionForm.get('estatus')?.value);
+    formData.append('tipo', this.certificacionForm.get('tipo')?.value);
     if (this.selectedFile) {
       formData.append('imagen', this.selectedFile);
     }
 
     try {
+      const tipoValue = this.certificacionForm.get('tipo')?.value;
+      if (tipoValue !== 'Plomeria' && tipoValue !== 'Electricidad') {
+        this.showErrorToast('Por favor selecciona un tipo válido: "Plomeria" o "Electricidad".');
+        return;
+      }
+
       const newCertificacion = await this.certificacionService.newCertificacion(formData).toPromise();
       this.certificacionService.getNewProduct.emit(newCertificacion);
       this.certificacionForm.reset();

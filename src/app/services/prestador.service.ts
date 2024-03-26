@@ -6,6 +6,7 @@ import { AuthService } from './auth.service';
 
 export { PrestadoresResponse, Prestador };
 interface Prestador {
+  tipo: string;
   id: number;
   user_id: number;
   oficio: string;
@@ -81,22 +82,6 @@ export class PrestadorService {
   private handleError(error: any): Observable<never> {
     console.error('Error fetching prestadores:', error);
     return throwError(error); //
-  }
-
-
-  async getPrestadorA(prestadorId: number) {
-    const accessToken = localStorage.getItem('accessToken');
-    const headers = {
-      'Authorization': `Bearer ${accessToken}`
-    };
-
-    try {
-      const prestador = await this.http.get(`${this.apiUrl}/prestadoresA/${prestadorId}`, { headers }).toPromise();
-      return prestador;
-    } catch (error) {
-      console.error('Error al obtener el prestador:', error);
-      throw error; 
-    }
   }
 
   //**Eliminar Prestador */

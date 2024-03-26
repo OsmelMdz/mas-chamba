@@ -30,7 +30,8 @@ export class NewCursoComponent  implements OnInit {
       imagen: [''],
       nombre: ['', Validators.required],
       descripcion: ['', Validators.required],
-      estatus: ['Habilitado']
+      estatus: ['Habilitado'],
+      tipo:['',Validators.required]
     });
   }
 
@@ -46,11 +47,18 @@ export class NewCursoComponent  implements OnInit {
     formData.append('nombre', this.cursoForm.get('nombre')?.value);
     formData.append('descripcion', this.cursoForm.get('descripcion')?.value);
     formData.append('estatus', this.cursoForm.get('estatus')?.value);
+    formData.append('tipo', this.cursoForm.get('tipo')?.value);
     if (this.selectedFile) {
       formData.append('imagen', this.selectedFile);
     }
 
     try {
+      const tipoValue = this.cursoForm.get('tipo')?.value;
+      if (tipoValue !== 'Plomeria' && tipoValue !== 'Electricidad') {
+        this.showErrorToast('Por favor selecciona un tipo válido: "Plomeria" o "Electricidad".');
+        return;
+      }
+
       const newCurso = await this.cursoService.newCurso(formData).toPromise();
       this.cursoService.getNewProduct.emit(newCurso);
       this.cursoForm.reset();
@@ -59,7 +67,7 @@ export class NewCursoComponent  implements OnInit {
       this.router.navigateByUrl('menu/tabs/tab2', { replaceUrl: true });
     } catch (error) {
       const err = error as { status: number };
-      //console.error('Error al crear el servicio:', err);
+      console.error('Error al crear el servicio:', err);
       if (err.status === 401) {
         this.showErrorToast('Usuario no autorizado o contraseña incorrecta');
       } else {

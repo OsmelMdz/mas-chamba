@@ -19,13 +19,21 @@
     </ion-item>
 
     <ion-item lines="none">
-      <ion-label position="stacked" text-wrap>Nombre del servicio</ion-label>
+      <ion-label position="stacked" text-wrap>Nombre de la certificacion</ion-label>
       <ion-input type="text" formControlName="nombre" required></ion-input>
     </ion-item>
 
     <ion-item lines="none">
-      <ion-label position="stacked" text-wrap>Descripcion del servicio</ion-label>
+      <ion-label position="stacked" text-wrap>Descripcion de la certificacion</ion-label>
       <ion-input type="text" formControlName="descripcion" required></ion-input>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-label position="stacked" text-wrap>Tipo de certificacion</ion-label>
+      <ion-select formControlName="tipo" required>
+        <ion-select-option value="Plomeria">Plomeria</ion-select-option>
+        <ion-select-option value="Electricidad">Electricidad</ion-select-option>
+      </ion-select>
     </ion-item>
 
     <ion-button [disabled]="!certificacionForm.valid" type="submit" expand="full">
