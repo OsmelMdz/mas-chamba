@@ -7,12 +7,13 @@
             placeholder="Búsca el nombre de tú colonia" (ionChange)="searchPrestador($event)">
           </ion-searchbar>
         </ion-col>
-        <ion-col size="2" *ngIf="isLoggedIn()">
+        <ion-col size="2">
           <ion-button id="popover-button" class="popover-button">
-            <div *ngIf="userProfile">
+            <div *ngIf="isLoggedIn() && userProfile">
               <img [src]="userProfile.user.imagen" alt="Imagen de perfil" onerror="this.onerror=null;
                 this.src='../../../assets/admin.png'">
             </div>
+            <ion-icon name="log-in"></ion-icon>
           </ion-button>
           <ion-popover trigger="popover-button" [dismissOnSelect]="true" class="mode-ios">
             <ng-template>
@@ -25,8 +26,9 @@
                   </ion-buttons>
                 </ion-toolbar>
                 <ion-list *ngFor="let component of components">
-                  <ion-item (click)="perfil(component.calculatorModal)">Ver perfil</ion-item>
-                  <ion-item (click)="logout()">Cerrar sesión</ion-item>
+                  <ion-item *ngIf="!isLoggedAd()" (click)="login()">Iniciar sesión</ion-item>
+                  <ion-item *ngIf=" isLoggedAd()" (click)="perfil(component.calculatorModal)">Ver perfil</ion-item>
+                  <ion-item *ngIf=" isLoggedAd()" (click)="logout()">Cerrar sesión</ion-item>
                 </ion-list>
               </ion-content>
             </ng-template>
@@ -50,7 +52,8 @@
               <ion-card>
                 <ion-card-content>
                   <ion-thumbnail>
-                    <img [src]="prestador.imagen" alt="Perfil del prestador" (error)="prestador.imagen = getImagenPorSexo(prestador.sexo, prestador.oficio)" />
+                    <img [src]="prestador.imagen" alt="Perfil del prestador"
+                      (error)="prestador.imagen = getImagenPorSexo(prestador.sexo, prestador.oficio)" />
                   </ion-thumbnail>
                   <br>
                   <ion-card-title>{{prestador.nombre}}</ion-card-title>
@@ -60,7 +63,7 @@
                   <ion-button class="contactar_button"
                     (click)="contactar('componente-modal-1', prestador.id)">Contactar</ion-button>
                 </ion-card-content>
-                <ion-footer *ngIf="isLoggedAd()" lines="full">
+                <ion-footer *ngIf="isLoggedP()" lines="full">
                   <ion-grid>
                     <ion-row>
                       <ion-col>
@@ -69,12 +72,12 @@
                         </ion-button>
                       </ion-col>
                       <ion-col>
-                        <ion-button  fill="clear">
+                        <ion-button fill="clear">
                           <ion-icon slot="icon-only" name="archive" color="warning"></ion-icon>
                         </ion-button>
                       </ion-col>
                       <ion-col>
-                        <ion-button (click)="deletePrestador(prestador.id)"  fill="clear">
+                        <ion-button (click)="deletePrestador(prestador.id)" fill="clear">
                           <ion-icon slot="icon-only" name="trash" color="danger"></ion-icon>
                         </ion-button>
                       </ion-col>
@@ -89,7 +92,8 @@
               <ion-card-content>
                 <ion-thumbnail>
                   <ion-thumbnail>
-                    <img [src]="prestador.imagen" alt="Perfil del prestador" (error)="prestador.imagen = getImagenPorSexo(prestador.sexo, prestador.oficio)" />
+                    <img [src]="prestador.imagen" alt="Perfil del prestador"
+                      (error)="prestador.imagen = getImagenPorSexo(prestador.sexo, prestador.oficio)" />
                   </ion-thumbnail>
                 </ion-thumbnail>
                 <br>
@@ -109,12 +113,12 @@
                       </ion-button>
                     </ion-col>
                     <ion-col>
-                      <ion-button  fill="clear">
+                      <ion-button fill="clear">
                         <ion-icon slot="icon-only" name="archive" color="warning"></ion-icon>
                       </ion-button>
                     </ion-col>
                     <ion-col>
-                      <ion-button (click)="deletePrestador(prestador.id)"  fill="clear">
+                      <ion-button (click)="deletePrestador(prestador.id)" fill="clear">
                         <ion-icon slot="icon-only" name="trash" color="danger"></ion-icon>
                       </ion-button>
                     </ion-col>
@@ -135,7 +139,8 @@
                 <ion-card-content>
                   <ion-thumbnail>
                     <ion-thumbnail>
-                      <img [src]="prestador.imagen" alt="Perfil del prestador" (error)="prestador.imagen = getImagenPorSexo(prestador.sexo, prestador.oficio)" />
+                      <img [src]="prestador.imagen" alt="Perfil del prestador"
+                        (error)="prestador.imagen = getImagenPorSexo(prestador.sexo, prestador.oficio)" />
                     </ion-thumbnail>
                   </ion-thumbnail>
                   <br>
@@ -154,7 +159,8 @@
               <ion-card-content>
                 <ion-thumbnail>
                   <ion-thumbnail>
-                    <img [src]="prestador.imagen" alt="Perfil del prestador" (error)="prestador.imagen = getImagenPorSexo(prestador.sexo, prestador.oficio)" />
+                    <img [src]="prestador.imagen" alt="Perfil del prestador"
+                      (error)="prestador.imagen = getImagenPorSexo(prestador.sexo, prestador.oficio)" />
                   </ion-thumbnail>
                 </ion-thumbnail>
                 <br>
@@ -172,4 +178,3 @@
     </ion-row>
   </ion-grid>
 </ion-content>
-

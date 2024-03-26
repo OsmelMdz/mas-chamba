@@ -102,12 +102,16 @@ export class Tab1Page implements OnInit {
     await this.popoverController.dismiss();
   }
 
-  //*Si esta logueado*/
+  //*Si esta logueado como visitante*/
   isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
+  //*Si esta logueado como admin o prestador/
+  isLoggedAd(): boolean {
     return this.authService.isLoggedIn() && (this.userProfile?.role_id === 1 || this.userProfile?.role_id === 2 || this.userProfile?.role_id === 3);
   }
-  
-  isLoggedAd(): boolean {
+  //*Si esta logueado como admin/
+  isLoggedP(): boolean {
     return this.authService.isLoggedIn() && (this.userProfile?.role_id === 1 || this.userProfile?.role_id === 2);
   }
 
@@ -204,6 +208,10 @@ export class Tab1Page implements OnInit {
     } else {
       console.error('El ID del prestador no está definido.');
     }
+  }
+ //*Iniciar sesión */
+  login() {
+    this.router.navigateByUrl('login', { replaceUrl: true });
   }
 
   //*Cerrar sesión */
