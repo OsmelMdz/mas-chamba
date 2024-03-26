@@ -14,10 +14,12 @@ import { NewZonaComponent } from './new-zona/new-zona.component';
 import { UpdateZonaComponent } from './update-zona/update-zona.component';
 import { UpdateServicioComponent } from './update-servicio/update-servicio.component';
 import { NewVisitanteComponent } from './new-visitante/new-visitante.component';
+import { UpdatePrestadorComponent } from './update-prestador/update-prestador.component';
 
 @NgModule({
   declarations: [
     NewPrestadorComponent,
+    UpdatePrestadorComponent,
     NewServicioComponent,
     UpdateServicioComponent,
     NewCursoComponent,
@@ -38,6 +40,7 @@ import { NewVisitanteComponent } from './new-visitante/new-visitante.component';
   ],
   exports: [
     NewPrestadorComponent,
+    UpdatePrestadorComponent,
     NewServicioComponent,
     UpdateServicioComponent,
     NewCursoComponent,
