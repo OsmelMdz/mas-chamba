@@ -50,6 +50,7 @@ export class ZonaService {
     return this.http.put<Zona>(`${this.apiUrl}/zonas/${id}`, datos, { headers });
   }
 
+
   //* Actualizar Zona pero haciendo el cambio de estatus */
   updateZonaEstatus(id: number, datos: any): Observable<Zona> {
     const headers = new HttpHeaders({

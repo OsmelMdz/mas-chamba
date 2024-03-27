@@ -96,6 +96,20 @@ export class Tab2Page implements OnInit {
       }
     );
   }
+
+  updatePrestadorEstatus(id: number, estatus: string): void {
+    this.prestadorService.updatePrestadorEstatus(id, { estatus }).subscribe(
+      (response) => {
+        //console.log('Zona actualizada:', response);
+        this.showSuccessToast('Estatus de la zona actualizado con éxito');
+      },
+      (error) => {
+        //console.error('Error al actualizar el estatus de la zona:', error);
+        this.showErrorToast('Error al actualizar el estatus de la zona');
+      }
+    );
+  }
+
   //** Actualizar prestador por id y datos pero abriendo un UpdatePrestadorComponent*/
   async openUpdateFormP(
     prestadorId: number,

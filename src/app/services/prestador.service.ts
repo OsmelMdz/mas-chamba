@@ -88,6 +88,14 @@ export class PrestadorService {
     return this.http.put<Prestador>(`${this.apiUrl}/prestadores/${id}`, datos, { headers });
   }
 
+    //* Actualizar Prestador pero haciendo el cambio de estatus */
+    updatePrestadorEstatus(id: number, datos: any): Observable<Prestador> {
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${this.authService.getToken()}`
+      });
+      return this.http.patch<Prestador>(`${this.apiUrl}/prestadores/${id}`, datos, { headers });
+    }
+
   //**Eliminar Prestador */
   deletePrestador(id: number): Observable<any> {
     const headers = new HttpHeaders({
