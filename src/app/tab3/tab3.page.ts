@@ -4,7 +4,7 @@ import { ModalController, ToastController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { NewPrestadorComponent } from '../components/new-prestador/new-prestador.component';
 import { PerfilPrestadorComponent } from '../components/perfil-prestador/perfil-prestador.component';
-import { Prestador } from '../services/prestador.service';
+import { Prestador, PrestadoresResponse, PrestadorService } from '../services/prestador.service';
 import { UserProfile } from '../components/perfil-prestador/perfil-prestador.component';
 import { HttpHeaders } from '@angular/common/http';
 import { NewCursoComponent } from '../components/new-curso/new-curso.component';
@@ -57,11 +57,15 @@ export class Tab3Page implements OnInit {
 
   prestadores: Prestador[] = [];
   userProfile: UserProfile | undefined;
+  isLargeScreen: boolean = true;
+
   constructor(
     private modalCtrl: ModalController,
     private authService: AuthService,
     private toastController: ToastController,
-    private router: Router) { }
+    private router: Router,
+    private prestadoresService: PrestadorService
+    ) { }
 
   ngOnInit() {
     this.perfilA();
@@ -156,8 +160,6 @@ export class Tab3Page implements OnInit {
 
     await modal.present();
   }
-
-
 
   async perfil(componenteModal: string) {
     let component;

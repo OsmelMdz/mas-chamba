@@ -170,20 +170,6 @@ export class Tab1Page implements OnInit {
     );
   }
 
-  //**Eliminar el perfil del prestador por id */
-  deletePrestador(id: number): void {
-    this.prestadorService.deletePrestador(id).subscribe(
-      () => {
-        this.getPrestadores();
-        this.showSuccessToast('Prestador eliminado con éxito');
-      },
-      (error) => {
-        console.error('Error al eliminar el prestador:', error);
-        this.showErrorToast('Error al eliminar el prestador');
-      }
-    );
-  }
-
   //*Te redirecciona a ver el perfil del prestador por id*/
   async abrirModal(componenteModal: string, idPrestador: number) {
     if (idPrestador) {
@@ -209,6 +195,7 @@ export class Tab1Page implements OnInit {
       console.error('El ID del prestador no está definido.');
     }
   }
+
  //*Iniciar sesión */
   login() {
     this.router.navigateByUrl('login', { replaceUrl: true });
@@ -243,7 +230,6 @@ export class Tab1Page implements OnInit {
 
 
   //*Alerta de aceptar politicas*/
-
   async contactar(componenteModal: string, idPrestador: number) {
     const accessToken = localStorage.getItem('auth_token');
     if (accessToken) {

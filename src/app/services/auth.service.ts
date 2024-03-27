@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, tap } from 'rxjs';
 import { User } from '../pages/login/user.model';
+import { PrestadoresResponse } from './prestador.service';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,7 @@ export class AuthService {
     const url = `${this.apiUrl}/profile`;
     return this.http.get<any>(url, { headers });
   }
+
 
   isLoggedIn(): boolean {
     const token = localStorage.getItem('auth_token');

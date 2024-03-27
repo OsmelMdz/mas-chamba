@@ -39,7 +39,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content [fullscreen]="true" class="card-container ion-padding">
   <ion-grid>
     <ion-text>
       <h1 class="ion-padding">Prestadores de servicios</h1>
@@ -63,27 +63,6 @@
                   <ion-button class="contactar_button"
                     (click)="contactar('componente-modal-1', prestador.id)">Contactar</ion-button>
                 </ion-card-content>
-                <ion-footer *ngIf="isLoggedP()" lines="full">
-                  <ion-grid>
-                    <ion-row>
-                      <ion-col>
-                        <ion-button fill="clear">
-                          <ion-icon slot="icon-only" name="create" color="success"></ion-icon>
-                        </ion-button>
-                      </ion-col>
-                      <ion-col>
-                        <ion-button fill="clear">
-                          <ion-icon slot="icon-only" name="archive" color="warning"></ion-icon>
-                        </ion-button>
-                      </ion-col>
-                      <ion-col>
-                        <ion-button (click)="deletePrestador(prestador.id)" fill="clear">
-                          <ion-icon slot="icon-only" name="trash" color="danger"></ion-icon>
-                        </ion-button>
-                      </ion-col>
-                    </ion-row>
-                  </ion-grid>
-                </ion-footer>
               </ion-card>
             </ion-col>
           </ng-container>
@@ -104,27 +83,6 @@
                 <ion-button class="contactar_button"
                   (click)="contactar('componente-modal-1', prestador.id)">Contactar</ion-button>
               </ion-card-content>
-              <ion-footer *ngIf="isLoggedIn()" lines="full">
-                <ion-grid>
-                  <ion-row>
-                    <ion-col>
-                      <ion-button fill="clear">
-                        <ion-icon slot="icon-only" name="create" color="success"></ion-icon>
-                      </ion-button>
-                    </ion-col>
-                    <ion-col>
-                      <ion-button fill="clear">
-                        <ion-icon slot="icon-only" name="archive" color="warning"></ion-icon>
-                      </ion-button>
-                    </ion-col>
-                    <ion-col>
-                      <ion-button (click)="deletePrestador(prestador.id)" fill="clear">
-                        <ion-icon slot="icon-only" name="trash" color="danger"></ion-icon>
-                      </ion-button>
-                    </ion-col>
-                  </ion-row>
-                </ion-grid>
-              </ion-footer>
             </ion-card>
           </ng-template>
         </ng-container>
@@ -177,4 +135,7 @@
       </ng-container>
     </ion-row>
   </ion-grid>
+
+
 </ion-content>
+

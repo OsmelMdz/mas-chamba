@@ -31,10 +31,24 @@ ion-button {
   display: block;
 }
 
+ion-content.card-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px; /* Add gap between cards if needed */
+}
+
+ion-card.card {
+  min-width: 200px; /* Set the minimum card width */
+  white-space: normal;
+  word-wrap: break-word;
+}
+
 ion-card {
   ion-card-header {
     padding-top: 5px;
     padding-bottom: 5px;
+    display: flex;
+    flex-direction: row;
   }
 
   ion-card-content {

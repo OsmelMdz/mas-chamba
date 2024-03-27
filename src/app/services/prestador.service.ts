@@ -6,7 +6,6 @@ import { AuthService } from './auth.service';
 
 export { PrestadoresResponse, Prestador };
 interface Prestador {
-  tipo: string;
   id: number;
   user_id: number;
   oficio: string;
@@ -45,14 +44,11 @@ export class PrestadorService {
     private authService: AuthService) { }
 
   //* Obtener Prestadores con authenticacion*/
-  getPrestadores(): Observable<PrestadoresResponse> {
+  getPrestadores(): Observable<Prestador[]> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.authService.getToken()}`
     });
-    return this.http.get<PrestadoresResponse>(`${this.apiUrl}/prestadores`, { headers })
-      .pipe(
-        catchError(this.handleError)
-      );
+    return this.http.get<Prestador[]>(`${this.apiUrl}/prestadores`, { headers });
   }
 
   //* Obtener Prestadores sin authenticacion */
@@ -84,12 +80,32 @@ export class PrestadorService {
     return throwError(error); //
   }
 
+  //* Actualizar Prestador */
+  updatePrestador(id: number, datos: any): Observable<Prestador> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+    return this.http.put<Prestador>(`${this.apiUrl}/prestadores/${id}`, datos, { headers });
+  }
+
   //**Eliminar Prestador */
   deletePrestador(id: number): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.authService.getToken()}`
     });
     return this.http.delete(`${this.apiUrl}/prestadores/${id}`, { headers });
+  }
+
+  getVersolicitud(): Observable<any>{
+    return this.http.get<any>(this.apiUrl+'/obtenerSolicitud');
+  }
+  agregarSolicitud(nuevaSolicitud: any): Observable<any> {
+    const url = `${this.apiUrl}/agregarsolicitud`;
+    return this.http.post<any>(url, nuevaSolicitud);
+  }
+  descargarArchivo(nombreArchivo: string): Observable<Blob> {
+    const url = `${this.apiUrl}/app/public/ruta_del_archivo/${nombreArchivo}`;
+    return this.http.get(url, { responseType: 'blob' });
   }
 
 }

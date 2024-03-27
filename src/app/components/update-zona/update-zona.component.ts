@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController, ToastController } from '@ionic/angular';
-import { AuthService } from 'src/app/services/auth.service';
 import { ZonaService, Zona } from 'src/app/services/zona.service';
 
 @Component({
@@ -39,7 +38,7 @@ export class UpdateZonaComponent implements OnInit {
       nombre: this.nombreZonaExistente,
       estatus: 'Activo'
     };
-    
+
     this.zonaService.updateZona(this.zonaId, updatedZonaData).subscribe(
       async (response) => {
         console.log('Zona actualizada:', response);

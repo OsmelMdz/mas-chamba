@@ -9,6 +9,9 @@ import { Router } from '@angular/router';
 import { UserProfile } from '../components/perfil-prestador/perfil-prestador.component';
 import { UpdateZonaComponent } from '../components/update-zona/update-zona.component';
 import { UpdateServicioComponent } from '../components/update-servicio/update-servicio.component';
+import { Prestador, PrestadoresResponse, PrestadorService } from '../services/prestador.service';
+import { UpdatePrestadorComponent } from '../components/update-prestador/update-prestador.component';
+
 
 @Component({
   selector: 'app-tab2',
@@ -16,15 +19,17 @@ import { UpdateServicioComponent } from '../components/update-servicio/update-se
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page implements OnInit {
-
+  prestadores: Prestador[] = [];
   servicios: Servicio[] = [];
   cursos: Curso[] = [];
   certificaciones: Certificacion[] = [];
   zonas: Zona[] = [];
   isLargeScreen: boolean = true;
   userProfile: UserProfile | undefined;
+  prestador: Prestador | undefined;
 
   constructor(
+    private prestadorService: PrestadorService,
     private servicioService: ServicioService,
     private cursoService: CursoService,
     private certificacionService: CertificacionService,
@@ -41,6 +46,7 @@ export class Tab2Page implements OnInit {
     this.getCertificacion();
     this.getZona();
     this.perfilA();
+    this.getPrestadores();
   }
 
   perfilA() {
@@ -65,6 +71,68 @@ export class Tab2Page implements OnInit {
 
   isAdministradorG(): boolean {
     return this.authService.isLoggedIn() && this.userProfile?.role_id === 1;
+  }
+
+  //**Ver Prestadores con el metodo get con autenticacion*/
+  getPrestadores(): void {
+    this.prestadorService.getPrestadores().subscribe(
+      (prestadores: Prestador[]) => {
+        this.prestadores = prestadores;
+        console.log('Prestadores:', this.prestadores);
+      }
+    );
+  }
+
+   //**Eliminar el perfil del prestador por id */
+   deletePrestador(id: number): void {
+    this.prestadorService.deletePrestador(id).subscribe(
+      () => {
+        this.getPrestadores();
+        this.showSuccessToast('Prestador eliminado con éxito');
+      },
+      (error) => {
+        console.error('Error al eliminar el prestador:', error);
+        this.showErrorToast('Error al eliminar el prestador');
+      }
+    );
+  }
+  //** Actualizar prestador por id y datos pero abriendo un UpdatePrestadorComponent*/
+  async openUpdateFormP(
+    prestadorId: number,
+    oficio:string,
+    nombrePrestador:string, 
+    a_paterno:string, 
+    a_materno:string, 
+    fechanacimiento:Date,
+    imagen:string,
+    sexo:string,
+    telefono:string,
+    identificacion:string,
+    comprobantedomicilio:string,
+    tipodecuenta:string,
+    estatus:string,
+    zonaId:number) {
+    const modal = await this.modalController.create({
+      component: UpdatePrestadorComponent,
+      componentProps: {
+        prestadorId: prestadorId,
+        OficioExistente: oficio,
+        NombreExistente: nombrePrestador,
+        APaternoExistente: a_paterno,
+        AMaternoExistente: a_materno,
+        FechaNacimientoExistente: fechanacimiento,
+        ImagenExistente: imagen,
+        SexoExistente: sexo,
+        TelefonoExistente: telefono,
+        IdentificacionExistente: identificacion,
+        ComprobanteExistente: comprobantedomicilio,
+        TipoCuentaExistente: tipodecuenta,
+        EstatusExistente: estatus,
+        ZonaIdExistente: zonaId
+      },
+      mode: 'ios'
+    });
+    await modal.present();
   }
 
   getServicios(): void {
@@ -191,7 +259,8 @@ export class Tab2Page implements OnInit {
       componentProps: {
         zonaId: zonaId,
         nombreZonaExistente: nombreZona
-      }
+      },
+      mode: 'ios'
     });
     return await modal.present();
   }
