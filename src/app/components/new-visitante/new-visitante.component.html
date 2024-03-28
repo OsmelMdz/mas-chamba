@@ -16,11 +16,11 @@
         <form [formGroup]="visitanteFrom" (ngSubmit)="submit()">
           <ion-item>
             <ion-label position="floating">Nombre</ion-label>
-            <ion-input type="text" formControlName="nombre"></ion-input>
+            <ion-input type="text" formControlName="nombre" required (input)="validarNombre($event)"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label position="floating">Teléfono</ion-label>
-            <ion-input type="tel" formControlName="telefono"></ion-input>
+            <ion-input type="tel" formControlName="telefono" required (input)="validarTelefono($event)"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label>Políticas</ion-label>

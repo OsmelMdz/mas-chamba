@@ -5,15 +5,17 @@ import { PrestadorService } from 'src/app/services/prestador.service';
 import { Zona } from 'src/app/services/zona.service';
 import { ZonaService } from '../../services/zona.service';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-update-prestador',
   templateUrl: './update-prestador.component.html',
   styleUrls: ['./update-prestador.component.scss'],
 })
-export class UpdatePrestadorComponent  implements OnInit {
+export class UpdatePrestadorComponent implements OnInit {
   imgProduct = '.../../../../../assets/add.png';
-  currentFile?: any[] = [];
+  // Arreglo de archivos
+  @Input() currentFile?: any[] = [];
   nuevoNombrePrestador!: string;
   @Input() NombreExistente!: string;
   nuevoAPaternoPrestador!: string;
@@ -34,13 +36,13 @@ export class UpdatePrestadorComponent  implements OnInit {
   @Input() ComprobanteExistente!: string;
   nuevoTipoCuentaPrestador!: string;
   @Input() TipoCuentaExistente!: string;
-  nuevoOficioPrestador!:string;
+  nuevoOficioPrestador!: string;
   @Input() OficioExistente!: string;
   nuevoEstatusPrestador!: string;
   @Input() EstatusExistente!: string;
   nuevoZonaIdPrestador!: number;
   @Input() ZonaIdExistente!: number;
-
+  formPrestador!: FormGroup; 
   prestadorId!: number;
   zonas: Zona[] = [];
 
@@ -50,7 +52,8 @@ export class UpdatePrestadorComponent  implements OnInit {
     private router: Router,
     private modalCtrl: ModalController,
     private zonaService: ZonaService,
-    private compressImg: NgxImageCompressService
+    private compressImg: NgxImageCompressService,
+    private formBuilder: FormBuilder, // Inyección de FormBuilder
   ) { }
 
 
@@ -72,51 +75,31 @@ export class UpdatePrestadorComponent  implements OnInit {
     );
   }  */
 
-  imageProduct(ev: any) {
-    console.log(ev);
-    this.compressImg.uploadFile().then(({ image, orientation }) => {
-      this.generarURL(image);
-      const blob = this.dataURItoBlob(image);
-      this.currentFile![0] = blob;
-    })
+  onFileChange(event: Event, field: string): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.readFile(file, (result: any) => {
+        this.formPrestador.get(field)?.setValue(result);
+      });
+    }
   }
 
-  generarURL(image: any) { //solo genera la url para poder mostrarla
-    const byteString = atob(image.split(",")[1]);
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    const blob = new Blob([ab], { type: '' });
-    // Crear la URL de la imagen
-    const imageUrl = URL.createObjectURL(blob);
-    console.log(imageUrl);
-    // Utilizar la URL de la imagen
-    this.imgProduct = imageUrl;
-    document.getElementById("imgProd")?.setAttribute(
-      'src', imageUrl);
-    //this.formGroup.get('image').patchValue(imageUrl)
-  }
-
-  dataURItoBlob(dataURI: any) {
-    // convert base64 to raw binary data held in a string
-    // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
-    var byteString = atob(dataURI.split(',')[1]);
-    // separate out the mime component
-    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-    // write the bytes of the string to an ArrayBuffer
-    var ab = new ArrayBuffer(byteString.length);
-    var ia = new Uint8Array(ab);
-    for (var i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([ab], { type: mimeString })
+  readFile(file: File, callback: (result: string | ArrayBuffer | null) => void) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      callback(reader.result);
+    };
+    reader.readAsDataURL(file);
   }
 
 
 
   async ngOnInit() {
+    this.formPrestador = this.formBuilder.group({
+      nuevoImagenPrestador: ['']
+    });
+    this.formPrestador.get('nuevoImagenPrestador')?.setValue(this.ImagenExistente);
     this.getZona();
   }
 
@@ -147,10 +130,10 @@ export class UpdatePrestadorComponent  implements OnInit {
       a_materno: this.AMaternoExistente,
       fecha_nacimiento: this.FechaNacimientoExistente,
       telefono: this.TelefonoExistente,
-      sexo:this.SexoExistente,
-      oficio:this.OficioExistente,
+      sexo: this.SexoExistente,
+      oficio: this.OficioExistente,
       estatus: this.EstatusExistente,
-      tipo_cuenta:this.TipoCuentaExistente,
+      tipo_cuenta: this.TipoCuentaExistente,
       zona_id: this.ZonaIdExistente,
     };
 
@@ -159,7 +142,6 @@ export class UpdatePrestadorComponent  implements OnInit {
         console.log('Prestador actualizado:', response);
         await this.modalCtrl.dismiss();
         this.showSuccessToast('Prestador actualizado con éxito');
-        this.router.navigateByUrl('menu/tabs/tab1', { replaceUrl: true });
       },
       (error) => {
         console.error('Error al actualizar el prestador:', error);

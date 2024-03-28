@@ -13,6 +13,13 @@
 
 <ion-content>
   <div class="ion-padding">
+    <ion-item class="image-container">
+      <ion-label position="stacked">Imagen</ion-label>
+      <img [src]="formPrestador.get('nuevoImagenPrestador')?.value" alt="Imagen existente"
+        *ngIf="formPrestador.get('nuevoImagenPrestador')?.value" width="100">
+      <input type="file" (change)="onFileChange($event, 'nuevoImagenPrestador')" accept="image/*" />
+    </ion-item>
+    
     <ion-item>
       <ion-label position="stacked">Ingresa el nuevo Nombre</ion-label>
       <ion-input type="text" [(ngModel)]="NombreExistente"></ion-input>

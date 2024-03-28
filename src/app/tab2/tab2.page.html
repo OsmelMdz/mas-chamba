@@ -292,65 +292,45 @@
       <ng-container *ngFor="let zona of zonas">
         <ng-container *ngIf="isLargeScreen; else smallScreen">
           <ion-col size-lg="4" size-md="6" size-sm="6" size-xs="12">
-            <ion-card class="ion-padding">
-              <ion-card-content>
-                <ion-card-title>{{zona.nombre}}</ion-card-title>
-              </ion-card-content>
-              <ion-footer lines="full">
-                <ion-grid>
-                  <ion-row>
-                    <ion-col>
-                      <ion-button (click)="openUpdateForm(zona.id, zona.nombre)" fill="clear">
-                        <ion-icon slot="icon-only" name="create" color="success"></ion-icon>
-                      </ion-button>
-                    </ion-col>
-                    <ion-col>
-                      <ion-button (click)=" updateZonaEstatus(zona.id, zona.estatus)" fill="clear">
-                        <ion-icon slot="icon-only" name="archive" color="warning"></ion-icon>
-                      </ion-button>
-                    </ion-col>
-                    <ion-col>
-                      <ion-button (click)="deleteZona(zona.id)" fill="clear">
-                        <ion-icon slot="icon-only" name="trash" color="danger"></ion-icon>
-                      </ion-button>
-                    </ion-col>
-                  </ion-row>
-                </ion-grid>
-              </ion-footer>
-            </ion-card>
+            <ion-list lines="full">
+              <ion-item>
+                <ion-label>{{zona.nombre}}</ion-label>
+                <ion-button (click)="openUpdateForm(zona.id, zona.nombre)" fill="clear" slot="end">
+                  <ion-icon name="create" color="success"></ion-icon>
+                </ion-button>
+                <ion-button (click)="updateZonaEstatus(zona.id, zona.estatus)" fill="clear" slot="end">
+                  <ion-icon name="archive" color="warning"></ion-icon>
+                </ion-button>
+                <ion-button (click)="deleteZona(zona.id)" fill="clear" slot="end">
+                  <ion-icon name="trash" color="danger"></ion-icon>
+                </ion-button>
+              </ion-item>
+            </ion-list>
           </ion-col>
         </ng-container>
         <ng-template #smallScreen>
           <ion-col size="12">
-            <ion-card class="ion-padding">
-              <ion-card-content>
-                <ion-card-title>{{zona.nombre}}</ion-card-title>
-              </ion-card-content>
-              <ion-footer lines="full">
-                <ion-grid>
-                  <ion-row>
-                    <ion-col>
-                      <ion-button (click)="openUpdateForm(zona.id, zona.nombre)" fill="clear">
-                        <ion-icon slot="icon-only" name="create" color="success"></ion-icon>
-                      </ion-button>
-                    </ion-col>
-                    <ion-col>
-                      <ion-button (click)=" updateZonaEstatus(zona.id, zona.estatus)" fill="clear">
-                        <ion-icon slot="icon-only" name="archive" color="warning"></ion-icon>
-                      </ion-button>
-                    </ion-col>
-                    <ion-col>
-                      <ion-button (click)="deleteZona(zona.id)" fill="clear">
-                        <ion-icon slot="icon-only" name="trash" color="danger"></ion-icon>
-                      </ion-button>
-                    </ion-col>
-                  </ion-row>
-                </ion-grid>
-              </ion-footer>
-            </ion-card>
+            <ion-list lines="full">
+              <ion-item>
+                <ion-label>{{zona.nombre}}</ion-label>
+                <ion-button (click)="openUpdateForm(zona.id, zona.nombre)" fill="clear" slot="end">
+                  <ion-icon name="create" color="success"></ion-icon>
+                </ion-button>
+                <ion-button (click)="updateZonaEstatus(zona.id, zona.estatus)" fill="clear" slot="end">
+                  <ion-icon name="archive" color="warning"></ion-icon>
+                </ion-button>
+                <ion-button (click)="deleteZona(zona.id)" fill="clear" slot="end">
+                  <ion-icon name="trash" color="danger"></ion-icon>
+                </ion-button>
+              </ion-item>
+            </ion-list>
           </ion-col>
         </ng-template>
       </ng-container>
     </ion-row>
   </ion-grid>
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
 </ion-content>

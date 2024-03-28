@@ -11,7 +11,7 @@ import { UpdateZonaComponent } from '../components/update-zona/update-zona.compo
 import { UpdateServicioComponent } from '../components/update-servicio/update-servicio.component';
 import { Prestador, PrestadoresResponse, PrestadorService } from '../services/prestador.service';
 import { UpdatePrestadorComponent } from '../components/update-prestador/update-prestador.component';
-
+import { InfiniteScrollCustomEvent } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab2',
@@ -27,6 +27,7 @@ export class Tab2Page implements OnInit {
   isLargeScreen: boolean = true;
   userProfile: UserProfile | undefined;
   prestador: Prestador | undefined;
+  items: string[] = [];
 
   constructor(
     private prestadorService: PrestadorService,
@@ -47,6 +48,21 @@ export class Tab2Page implements OnInit {
     this.getZona();
     this.perfilA();
     this.getPrestadores();
+    this.generateItems();
+  }
+
+  private generateItems() {
+    const count = this.items.length + 1;
+    for (let i = 0; i < 50; i++) {
+      this.items.push(`Item ${count + i}`);
+    }
+  }
+
+  onIonInfinite(ev: InfiniteScrollCustomEvent) {
+    this.generateItems();
+    setTimeout(() => {
+      (ev as InfiniteScrollCustomEvent).target.complete();
+    }, 500);
   }
 
   perfilA() {
@@ -125,7 +141,8 @@ export class Tab2Page implements OnInit {
     comprobantedomicilio:string,
     tipodecuenta:string,
     estatus:string,
-    zonaId:number) {
+    zonaId:number,
+    ) {
     const modal = await this.modalController.create({
       component: UpdatePrestadorComponent,
       componentProps: {

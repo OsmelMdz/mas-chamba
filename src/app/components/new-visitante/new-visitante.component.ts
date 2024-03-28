@@ -9,7 +9,7 @@ import { VisitanteService } from '../../services/visitante.service';
   templateUrl: './new-visitante.component.html',
   styleUrls: ['./new-visitante.component.scss'],
 })
-export class NewVisitanteComponent  implements OnInit {
+export class NewVisitanteComponent implements OnInit {
   visitanteFrom!: FormGroup;
   tokenKey = 'auth_token';
   constructor(
@@ -21,7 +21,6 @@ export class NewVisitanteComponent  implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log('Hola');
     this.initializeForm();
   }
 
@@ -31,27 +30,62 @@ export class NewVisitanteComponent  implements OnInit {
 
   initializeForm() {
     this.visitanteFrom = this.formBuilder.group({
-      nombre: ['', Validators.required],
-      telefono: ['', Validators.required],
-      politicas: ['', Validators.required],
+      nombre: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
+      telefono: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+      politicas: ['', [Validators.required, Validators.pattern(/Aceptado/)]],
       estatus: ['Activo']
     });
   }
 
+  validarNombre(event: any) {
+    let inputValue: string = event.target.value;
+    inputValue = inputValue.replace(/^\s+/g, '');
+    inputValue = inputValue.replace(/[^a-zA-Z\s]+/g, '');
+    event.target.value = inputValue;
+  }
+
+  validarTelefono(event: any) {
+    let inputValue: string = event.target.value;
+    inputValue = inputValue.replace(/\D/g, '');
+    event.target.value = inputValue;
+  }
+
   async submit() {
+    let politicasControl = this.visitanteFrom.get('politicas');
+    if (politicasControl && politicasControl.value !== 'Aceptado') {
+      this.showErrorToast('Debes aceptar las políticas de privacidad.');
+      return;
+    }
+
     try {
-      const newVisitante = await this.visitanteService.newVisitante(this.visitanteFrom.value).toPromise();
-      localStorage.setItem('auth_token', newVisitante.token);
-      this.visitanteService.getNewProduct.emit(newVisitante);
-      this.visitanteFrom.reset();
-      await this.modalCtrl.dismiss();
-      this.navCtrl.navigateRoot('menu');
-      this.showSuccessToast('Políticas aceptadas correctamente.');
+      let nombreControl = this.visitanteFrom.get('nombre');
+      let telefonoControl = this.visitanteFrom.get('telefono');
+
+      if (nombreControl && telefonoControl) {
+        const nombre = nombreControl.value.toUpperCase();
+        const telefono = telefonoControl.value;
+
+        const newVisitante = await this.visitanteService.newVisitante({
+          nombre: nombre,
+          telefono: telefono,
+          politicas: 'Aceptado',
+          estatus: 'Activo'
+        }).toPromise();
+
+        localStorage.setItem('auth_token', newVisitante.token);
+        this.visitanteService.getNewProduct.emit(newVisitante);
+        this.visitanteFrom.reset();
+        await this.modalCtrl.dismiss();
+        this.navCtrl.navigateRoot('menu');
+        this.showSuccessToast('Políticas aceptadas correctamente.');
+      }
     } catch (error) {
       console.error('Error al aceptar las políticas:', error);
       this.showErrorToast('Error al aceptar las políticas, intenta de nuevo');
     }
   }
+
+
 
   async showSuccessToast(message: string) {
     const toast = await this.toastController.create({

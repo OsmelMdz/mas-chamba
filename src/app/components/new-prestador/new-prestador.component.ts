@@ -50,17 +50,17 @@ export class NewPrestadorComponent implements OnInit {
 
   initializeForm() {
     this.formPrestador = this.fb.group({
-      oficio: [''],
+      oficio: ['',Validators.required],
       nombre: ['', Validators.required],
       a_paterno: ['', Validators.required],
       a_materno: ['', Validators.required],
       fecha_nacimiento: ['', Validators.required],
-      telefono: [''],
-      sexo: [''],
+      telefono: ['',Validators.required],
+      sexo: ['',Validators.required],
       imagen: [null, Validators.required],
-      identificacion_personal: [null],
-      comprobante_domicilio: [null],
-      tipo_cuenta: [''],
+      identificacion_personal: [null, Validators.required],
+      comprobante_domicilio: [null, Validators.required],
+      tipo_cuenta: ['',Validators.required],
       estatus: ['Activo'],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],

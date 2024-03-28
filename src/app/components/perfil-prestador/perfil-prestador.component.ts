@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { PoliticasComponent } from '../politicas/politicas.component';
 
 export { UserProfile }
+
 interface UserProfile {
   user: {
     id: number;
@@ -27,6 +28,7 @@ interface UserProfile {
   password: string;
   role_id: number;
 }
+
 @Component({
   selector: 'app-perfil-prestador',
   templateUrl: './perfil-prestador.component.html',
@@ -45,8 +47,6 @@ export class PerfilPrestadorComponent implements OnInit {
   ngOnInit() {
     this.perfil();
   }
-
-  
 
   perfil() {
     this.authService.getPerfilPrestador().subscribe(
